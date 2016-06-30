@@ -1,0 +1,71 @@
+====== Big Data ======
+
+I'm going to create this prezi to present the big data ecosystem.
+http://prezi.com/wtettiuoebpf/?utm_campaign=share&utm_medium=copy
+
+
+**Wikipedia:**
+Big data is an all-encompassing term for any collection of data sets so large and complex that it becomes difficult to process them using traditional data processing applications.
+
+===== General Understanding=====
+  * [[http://blog.octo.com/big-data-quelques-mythes/]]
+  * [[http://blog.octo.com/hadoop-in-da-cloud/]]
+  * [[http://blog.octo.com/introduction-a-flume-ng]]
+
+===== Apache Hadoop =====
+**Apache Hadoop is a plateform that uses :**
+  * A scalable infrastructure
+  * HDFS as File System
+  * MapReduce as main framework for processing data on a distributed system
+
+**Apache Hadoop was created after two papers produced by Google** 
+  * “ Google Filesystem” 
+  *  “MapReduce: Simplified Data Processing on Large Clusters”
+
+
+===== Tools =====
+  * **[[wiki:big_data:hadoop|Hadoop]]** Some of the Hadoop distributions are [[wiki:big_data:cloudera|Cloudera]]/Hortonworks...
+
+==== Hue ====
+        * [[wiki:big_data:hue:importing_pig_parameters|Importing a pig parameters file into a script in oozie]]
+ ==== HDFS ====
+        * [[wiki:big_data:HDFS|HDFS]]
+        * [[wiki:big_data:hdfs:hdfs_shared_folder|Creating a shared folder]]
+ ====Spark ====
+        * [[http://gethue.com/get-started-with-spark-deploy-spark-server-and-compute-pi-from-your-web-browser/]] 
+        * [[https://spark.apache.org/docs/0.9.0/quick-start.html#a-standalone-app-in-java]]
+        * [[https://spark.apache.org/docs/0.9.0/quick-start.html#a-standalone-app-in-python]]
+        * [[http://spark.apache.org/docs/0.9.1/scala-programming-guide.html]]
+ ==== Hive ====
+        * [[wiki:big_data:Hive| My Hive Notes]]
+        * [[https://hive.apache.org/]]
+        * [[wiki:big_data:hive:hive_partitionning|Partitioning tables in Hive]]
+        * [[wiki:big_data:hive:hive_json_to_parquet|Json table to Parquet Table]]
+        * [[wiki:big_data:hive:hive_hbase|Hbase,Json and Hive]]
+        * [[wiki:big_data:hive:hive_udf|Hive UDFs]]
+        * [[wiki:big_data:hive:store_issues|Storing data issues]]
+ ====Impala ====
+        * [[wiki:big_data:impala:start]]
+        * [[wiki:big_data:impala:missing_in_impala|What's missing in Impala?]]
+ ====Pig====
+        * [[wiki:big_data:pig:start| My Pig Notes]]
+        * TDD with Pig: [[http://blog.octo.com/jai-teste-pour-vous-pigunit/]]
+        * [[wiki:big_data:pig:filter_withçpig|Filtering with pig]]
+        * [[wiki:big_data:pig:pigstorage_issues|PigStorage issues]]
+        * [[wiki:big_data:pig:pig_hue_issues|Pig Issues in Hue]]
+        * [[wiki:big_data:pig:disk_space_usage|Pig is using too much disk while map-reduce]]
+ ====Cloudera Search + Hbase lily index ====
+        * [[wiki:big_data:pig:lilly_index|Make your first lilly index]]
+ ==== HBase ====
+        * [[wiki:big_data:HBase|My HBase Notes]]
+        * How to speed up HBase: [[http://apmblog.dynatrace.com/2013/02/19/speeding-up-a-pighbase-mapreduce-job-by-a-factor-of-15/]]
+        * remove wal: [[http://hadoop-hbase.blogspot.fr/2013/05/hbase-durability-guarantees.html]]
+ ====Useful things ====
+        * [[wiki:big_data:shell:useful_commands|Hadoop Admin Monitoring Commands]]
+        *  [[wiki:big_data:tips:small_files_pb|Small Files Problem]]
+
+===== Good books =====
+  * Hadoop Operations by Eric Sammer  http://www.amazon.fr/gp/product/1449327052?psc=1&redirect=true&ref_=oh_aui_detailpage_o00_s00
+
+===== Certifications =====
+ [[wiki:big_data:CCAH500|My certifications note (CCAH500) ]]

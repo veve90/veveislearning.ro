@@ -1,0 +1,189 @@
+====== YARN (17%)======
+Source: http://fr.slideshare.net/martyhall/hadoop-tutorial-mapreduce-part-4-input-and-output
+MapReduce = a programming model
+
+{{:wiki:big_data:ccah500:hadoop-tutorial-mapreduce-part-4-input-and-output-50-638.jpg|}}
+
+  - Data is separated into multiple "Record Readers"
+  - For each Record Reader, a map is created
+  - The Record reader gives to the map all data, record by record. Each record has a key and a value.
+  - Intermediate data of the mappers is written to the local disk
+  - After the mappers finished, the there is a "shuffle and sort" part where all values associated with the same intermediate key are given to the same reducer 
+  - The reducers receives a list of keys and a list of values for each key (ordered)
+  - The output of the reducers is written to HDFS
+
+**Why?**
+  * Parallelization and distribution
+  * Fault-Tolerance
+  * Monitoring tools
+  * A clean abstraction for the users
+
+
+
+
+
+==== Upgrade From Hadoop 1 to Hadoop 2 ====
+source: 
+  * https://hadoop.apache.org/docs/r2.7.1/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduce_Compatibility_Hadoop1_Hadoop2.html 
+  * http://fr.slideshare.net/tshooter/strata-conf2014
+
+{{:wiki:big_data:upgrade_hadoop.png|}}
+
+  * Hadoop 2 is can be used for multiple pourposes, not just batch
+  * There are separeted commands for hdfs and mapreduce  (in shell)
+  * The RPC communication is not compatible with the previous one
+  * Admins cannot mix and match versions
+  * Clients must be updated with the same version as the one on the Cluster
+  * The Capacity Manager is changing (dynamic memory based resouces)
+  * Scheduler: The multi resource scheduler
+  * Confirgurations names are changing (refactoring)
+  * Jars are splitted (commons, hdfs mapred)
+
+
+==== How to deploy MapReduce v2 (MRv2 / YARN), including all YARN daemons==== 
+Hadoop Apache:
+  - Download the Hadoop distribution http://www.apache.org/dyn/closer.cgi/hadoop/common/ 
+<code>
+  $ mkdir input
+  $ cp etc/hadoop/*.xml input
+  $ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar grep input output 'dfs[a-z.]+'
+  $ cat output/*
+</code>
+
+Set the folowing configurations:
+# etc/hadoop/core-site.xml
+<code>
+<configuration>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+</configuration>
+
+#etc/hadoop/hdfs-site.xml
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+</configuration>
+</code>
+
+#etc/hadoop/mapred-site.xml:
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+</configuration>
+
+#etc/hadoop/yarn-site.xml
+<configuration>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+</configuration>
+
+  - Format the filesystem: bin/hdfs namenode -format
+  - Start NameNode daemon and DataNode daemon: sbin/start-dfs.sh
+  -   $ bin/hdfs dfs -mkdir /user
+  -   $ bin/hdfs dfs -mkdir /user/<username>
+  -   $ sbin/start-yarn.sh
+
+Another way of starting them:
+<code>
+$ sudo service hadoop-yarn-resourcemanager start
+$ sudo service hadoop-yarn-nodemanager start
+$ sudo service hadoop-mapreduce-historyserver start
+</code>
+
+==== Design strategy for MapReduce v2 (MRv2)==== 
+**MR1:**
+  * uses JobTracker/TaskTracker
+  * MR jobs only
+  * JobTracker
+      * Manager MR Jobs
+      * Distributes tasks to TaskTrackers
+      * One JT can support about 4000 nodes
+  * TaskTRacker
+      * Starts and monitors Map and Reduces Tasks
+      * Slaves nodes are configured to run a fixed number of maps/reduces tasks
+
+**YARN:**
+  * Uses ResourceManager,NodeManager
+  * supports MRv2, Impala, Spark, Giraph
+  * ResourceManager: one per cluster (initiate the application startup)
+        * allocate containers on the slave nodes
+        * choose the node for the Application Master (AM). The application Master will launch the other containers for the job.
+        * Manages the NodeManagers (checks that they are working)
+        * Handle the AM requests for resources (containers)
+        * can be configured with HA
+  * NodeManager: one per slave node (manages resources on slave nodes)
+        * Communicate with the RM and gives him information about the node resources.
+        * Manages the processes in the containers. Launches AM on the request of the RM. Launches applications on the request of the AM.
+        * Aggregate logs and saves them to HDFS
+  * JobHistoryServer: one per cluster (saves job metrics and data)
+==== Determine how YARN handles resource allocations==== 
+  * The AM (Application Manager) is launched by the ResourceManager (RM) in a container, on one of the NodeManager(NM). 
+  * Then, the AM, asks for multiple containers to the RM. 
+  * The RM is sending the NM on which the AM should run the containers. 
+  * Each container contains multiple maps and multiple reduces.
+==== Identify the workflow of MapReduce job running on YARN==== 
+  * The AM (Application Manager) is launched by the ResourceManager (RM) in a container, on one of the NodeManager(NM). 
+  * Then, the AM, asks for multiple containers to the RM. 
+  * The RM is sending the NM on which the AM should run the containers. 
+  * Each container contains multiple maps and multiple reduces.
+
+==== Determine which files you must change and how in order to migrate a cluster from MapReduce version 1 (MRv1) to MapReduce version 2 (MRv2) running on YARN.==== 
+**yarn-site.xml** 
+<code>
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>  
+  <property>    
+    <name>yarn.resourcemanager.hostname</name>    
+    <value>you.hostname.com</value>  
+  </property>  
+
+  <property>    
+    <name>yarn.nodemanager.aux-services</name>    
+    <value>mapreduce_shuffle</value>  
+  </property>  
+</configuration>
+</code>
+
+**mapred-site.xml**
+<code>
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>  
+  <property>    
+    <name>mapreduce.framework.name</name>    
+    <value>yarn</value>  
+  </property>
+</configuration>
+</code>
+
+
+"One of the larger changes in MRv2 is the way that resources are managed. In MRv1, each host was configured with a fixed number of map slots and a fixed number of reduce slots. Under YARN, there is no distinction between resources available for maps and resources available for reduces - all resources are available for both. Second, the notion of slots has been discarded, and resources are now configured in terms of amounts of memory (in megabytes) and CPU (in “virtual cores”, which are described below). Resource configuration is an inherently difficult topic, and the added flexibility that YARN provides in this regard also comes with added complexity. Cloudera Manager will pick sensible values automatically, but if you are setting up your cluster manually or just interested in the details, read on."
+
+source:http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cdh_ig_mapreduce_to_yarn_migrate.html#concept_e4c_3my_xl_unique_1
+
+  * mapred.tasktracker.map.tasks.maximum and mapred.tasktracker.reduce.tasks.maximum no longer exists. Now, , in YARN we need to set  yarn.nodemanager.resource.memory-mb and yarn.nodemanager.resource.cpu-vcores
+  * **Rounding Request Sizes:** yarn.scheduler.minimum-allocation-mb, yarn.scheduler.minimum-allocation-vcores, yarn.scheduler.increment-allocation-mb, and yarn.scheduler.increment-allocation-vcores are properties that will determine how the requests will rounf up the requests. 
+  * **Fair Scheduler in MRv2:** The minMaps, maxMaps, minReduces, and maxReduces queue properties have been replaced with a minResources property and a maxProperties
+  *** Administration Commands:** The jobtracker and tasktracker commands, which start the JobTracker and TaskTracker, are no longer supported because these services no longer exist.They are replaced with yarn resourcemanager and yarn nodemanager, which start the ResourceManager and NodeManager respectively
+
+
+=== Upgrading an MRv1 Installation Using the Command Line ===
+  - Uninstall the following packages: hadoop-0.20-mapreduce, hadoop-0.20-mapreduce-jobtracker, hadoop-0.20-mapreduce-tasktracker, hadoop-0.20-mapreduce-zkfc, hadoop-0.20-mapreduce-jobtrackerha.
+  - Install the following additional packages : hadoop-yarn, hadoop-mapreduce, hadoop-mapreduce-historyserver, hadoop-yarn-resourcemanager, hadoop-yarn-nodemanager.
+  - Configurations starting with yarn should be placed inside yarn-site.xml, not mapred-site.xml. 
+  - Start the ResourceManager, NodeManagers, and the JobHistoryServer.
+
+
+Notes:
+{{:wiki:big_data:ccah500:mr1_mr2.png|}}
+{{:wiki:big_data:ccah500:mr1_mr2_2.png|}}
+{{:wiki:big_data:ccah500:mr1_mr2_3.png|}}
+{{:wiki:big_data:ccah500:mr1_mr2_4.png|}}
+{{:wiki:big_data:ccah500:mr1_mr2_5.png|}}

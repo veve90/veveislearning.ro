@@ -1,0 +1,50 @@
+====== Storing data issues ======
+
+===== 1. Storing strings  that contains newlines into tables =====
+
+When you have some data that you have to store in hive you have to take care of some things that you wouldn't think of... like the fact the newlines,tabs virgules that are in quoted strings may be treated as delimiters
+
+[[https://issues.apache.org/jira/browse/HIVE-1898]]
+
+The funny thing is that this is an issue since 2011....
+
+===== 2. Having a small table stored as sequencefile that you are inserting in a big file =====
+
+If you are having a small table/ a cron job table stored as sequencefile, and you want to do something like
+
+<code>
+CREATE TABLE IF NOT EXISTS  BigTable LIKE SmallTableSequence;
+
+INSERT INTO  TABLE BigTable  
+SELECT * FROM SmallTableSequence;
+</code>
+
+You will just have a lazy crazy error telling you that they are not finding the sequencefile files.
+
+If you try to create the table manually, without any store thing:
+<code>
+CREATE TABLE IF NOT EXISTS  BigTable (.....);
+
+INSERT INTO  TABLE BigTable  
+SELECT * FROM SmallTableSequence;
+</code>
+
+
+It will copy data in a nonesence order (?) 
+
+===== 3. Using HCatStorer - for example storing data into Hive by using pig =====
+For this job you will do something like:
+
+<code>
+
+-- Pig code
+
+STORE sessionsWithSplittedKeyOrdered into '${MY_TABLE_NAME}'
+USING org.apache.hcatalog.pig.HCatStorer();
+</code>
+
+However, this is normal.. what is not really ok is that:
+  * you have to add a bunch of jars in order to be able to do this
+  * you cannot append into an existing table
+  * you have to create the table before doing this 2 lines
+

@@ -1,0 +1,7 @@
+====== Importing a pig parameters file (oozie) ======
+
+For this job you will have to do something like:
+
+In the **oozie workflow --> the pig job--> parameters-->** 
+  * **argument 1:** -param_file
+  * **argument 2:** ${nameNode}/user/..../param.pig

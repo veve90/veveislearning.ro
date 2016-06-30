@@ -1,0 +1,8 @@
+====== Pig Issues in Hue ======
+===== Not completing the Pig parameters in the Hue editor =====
+
+If you want to try the pig parameters in the Hue editor, 
+and you are **not** completing the **parameters pop-up**,
+you will get an **error for every single query** for that user on that computer! (even a clear table) 
+
+**What you have to do:** clear you browser cache 

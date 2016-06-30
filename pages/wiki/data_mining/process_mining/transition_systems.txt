@@ -1,0 +1,31 @@
+===== Transition systems =====
+{{ :wiki:data_mining:transitionsystem.png?nolink&300 |}}
+
+The reachability graph is a special kind of transition system 
+
+**Vocabulary**
+
+  * states: markings in petry net
+  * transitions: transitions in petry net
+  * final state: final marking in petry net
+**Properties**
+
+Complete traces go from the initial state to the final state.
+The transition system may have a lot more states that places in the correspondant petry net.
+
+===Building a transition system===
+
+  * Prefix automaton(example)
+
+We have to take into consideration
+  * - a sequence/a set of events before/after each state
+  * - the different types of building the model (tacking sets or sequences or futer vs past) will change the model
+
+
+
+{{ :wiki:data_mining:transitionscapture.png?nolink&300 |}}
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

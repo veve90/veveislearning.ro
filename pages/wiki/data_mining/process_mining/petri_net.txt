@@ -1,0 +1,37 @@
+===== Petri Net =====
+
+**Example of a petri net graph** 
+{{ :wiki:data_mining:petri.png?nolink&300 |}}
+**Vocabulary**
+
+  * places: p1,p2,p3,p4, are states, (nown, or verbs -ing eg: red, leaving)
+  * transition: t1,t2 (mostly verbs ex:leave, change_to_red)
+  * initial marking: p1, p3
+  * token: the thing that is moving from pace to place
+  * enabled transition: transition thet can be fired
+  * non-determininistic: we are not shure of the order of the places that will be fired
+  * reachability graph: shows all the reachable marking
+[p1, p3^2] (t1) [p2,p3^3](t2) [p4^2,p1, p3^2]¦ a transition system with one initial state (initial marking) and no explicit final marking.
+
+**Note:** The reachability graph may be infinite
+
+**Propeties of a petry net graph**
+{{ :wiki:data_mining:petriprop.png?nolink&300 |}}
+  * boundedness: we cannot grow the number of tokens at infinite
+  * safeness = 1-boundedness
+  * deadlock = no transition enable one transition, any reachable state enable one transition
+  * liveness = no mather what you do, you can allways get bach to a given transition
+
+  * a Petry net that is live is deadlock-free (the reverse does not have to hold)
+  * a Petry net is live if alll transitions are live
+
+  * bounded: no (t1,t2,t..)
+  * safe: no
+  * deadlock-free: no (t4)
+  * live: no
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

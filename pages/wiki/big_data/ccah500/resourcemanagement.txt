@@ -1,0 +1,66 @@
+====== 5. Resource Management (10%) ======
+
+===== Understand the overall design goals of each of Hadoop schedulers =====
+The ResourceManager is scheduling the resource usage. (CPU, memory...).
+Administratoris chose a scheduling policy that fits for their requirements.
+
+Impala can run without YARN . In that case it uses it's own resource manager. In that case you will also need to configure the fair-scheduler.xml configuration from  /etc/impala/conf.
+
+Llama is the equivalent of AM in MapReduce jobs.
+
+===== FIFO Scheduler=====
+  * No configuration needed
+  * Large applications will use all the resources in a cluster
+  * Each application has to wait its turn.
+  * How it works:  "Requests for the first application in the queue are allocated first; once its requests have been satisfied, the next application in the queue is served, and so on."
+
+source: https://www.safaribooksonline.com/library/view/hadoop-the-definitive/9781491901687/ch04.html
+===== Fair Scheduler =====
+
+  * The default scheduler in CDH5
+  * allow short developpement jobs to coexist with long production jobs
+  * it assigns a container, a pool that has the fewest resources allocated
+
+==== Pools (Queue)====
+  * we can specify the pool when we submit a job (-D mapreduce.job.queuename)
+  * pools and subpools are defined in the fair-scheduler.xml file
+  * there are priorities within each pool (FIFO, Single resource fairness, Dominant resource fairness)
+  * Normally each pool can use a fair share of resources total resources/ Number of pools. However, pools can use more than their faire share if the other pools don't ask for resources.
+  * We can define minimum resources for each pool.
+  * We can define weights for pools.
+  * There are multiple configurations for achieving a FairShare:
+        * The patient approach
+        * The brute approach (killing tasks ) (activate preemption)
+              * minSharePreemptionTimeout: defines when to start killing tasks
+        * Configurations (/etc/hadoop/conf/fairscheduler.xml):
+              * yarn.scheduler.fair.allowundeclared-pools
+              * yarn.scheduler.fair.preemption
+              * yarn.scheduler.fair.useras-default-queue
+              * yarn.scheduler.fair.locality.threshold.node
+              * yarn.scheduler.fair.locality.threshold.rack
+
+
+==== Within pool: Single Resource Fairness ====
+  * schedule jobs using memory
+  * is the default policy
+  * if we have 2 pools A and B. A uses 1 GB memory and B 5 GB memory. if both pools request X GB memory, the next X GB memory available will be given to the pool A.
+
+==== Within pool: Dominant Resource Fairness ====
+  * Take into consideration the dominant resource share in order to decide who is the next pool that will receive the asked resources
+=====  Capacity Scheduler  =====
+  * a separate dedicated queue allows the small job to start as soon as it is submitted
+
+
+"The primary abstraction provided by the CapacityScheduler is the concept of queues. These queues are typically setup by administrators to reflect the economics of the shared cluster.
+
+To provide further control and predictability on sharing of resources, the CapacityScheduler supports hierarchical queues to ensure resources are shared among the sub-queues of an organization before other queues are allowed to use free resources, there-by providing affinity for sharing free resources among applications of a given organization."
+source: https://hadoop.apache.org/docs/r2.4.1/hadoop-yarn/hadoop-yarn-site/CapacityScheduler.html
+
+The capacityScheduler supports the folowing features:
+  * Hierarchical Queues
+  * Capacity Guarantees
+  * Security 
+  * Elasticity 
+  * Multi-tenancy 
+  * Operability: Runtime Configuration , Drain applications 
+  * Resource-based Scheduling

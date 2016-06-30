@@ -1,0 +1,28 @@
+====== Pig is using too much disk while map-reduce ======
+===== Use Diferent Names =====
+Use diferent names for each single variable (do not reuse variables names). Pig will not know if he can or cannot delete some temporary data.
+  
+===== Check the projections after group by===== 
+Something like:
+<code>
+data_grouped = GROUP A BY (b, c,d);
+data_projected = FOREACH data_grouped  {
+    GENERATE 
+	group.b as b,
+	group.c as c,
+	group.d as d,
+        A.e as e;
+};
+</code>
+
+will be much more disk consuming than:
+
+<code>
+data_grouped = GROUP A BY (b, c,d);
+
+data_projected = FOREACH data_grouped  {
+    GENERATE 
+			FLATTEN (group) as (b,c,d),
+			A.e as e;
+};
+</code>

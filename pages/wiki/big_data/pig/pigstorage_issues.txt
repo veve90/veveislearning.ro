@@ -1,0 +1,6 @@
+====== PigStorage issues ======
+
+When you have to store some rows with Pig/PigStorage if there is a newline inside a string field , the newline is treated as a delimitor... 
+
+[[https://issues.apache.org/jira/browse/PIG-836]]
+[[https://issues.apache.org/jira/browse/MAPREDUCE-2254]]

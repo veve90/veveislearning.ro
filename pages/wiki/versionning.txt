@@ -1,0 +1,5 @@
+GitHub
+
+  * excercise: [[https://try.github.io/levels/1/challenges/1]]
+  * tutorial: [[https://www.codeschool.com/courses/git-real]]
+  * others: [[https://help.github.com/articles/good-resources-for-learning-git-and-github/]]

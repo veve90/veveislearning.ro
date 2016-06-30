@@ -1,0 +1,19 @@
+====== Pig ======
+  * is a plateform for running **map-reduce** queries
+  * uses the Pig Latin syntax
+  * was originally developed at Yahoo in 2006: 
+  * in 2007 it becamed open-sourced and moved to apache
+
+
+**Example** :
+<code>
+students = LOAD ‘data’ USING BinStorage
+AS (name, status, possiblePoints, earnedPoints);
+paid = FILTER students BY status == ‘paid’;
+gpa = FOREACH paid GENERATE name,
+earnedPoints / possiblePoints;
+</code>
+
+''source: Building a High-Level Dataflow System on top of Map-Reduce: The Pig Experience''
+
+http://paperhub.s3.amazonaws.com/a7b584c04b61fabb8d10333e91989120.pdf

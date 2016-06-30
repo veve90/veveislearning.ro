@@ -1,0 +1,10 @@
+==== Dependecy Graphs====
+
+rules for computing the frequency of the links. A threashold is set in order to choose if we are going to put some links or not.
+{{ :wiki:data_mining:dependencymeasure.png?nolink&300 |}}
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

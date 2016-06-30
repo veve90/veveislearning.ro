@@ -1,0 +1,9 @@
+====== Conferences ======
+
+  * Shared tech agenda(Lyon, France): [[http://www.lyontechhub.org/#!/calendrier]]
+  * Lyon JUG : [[http://www.lyonjug.org/]]
+  * Android User Group Lyon : [[http://lyaug.fr/]]
+  * Mix-IT [[http://www.mix-it.fr/]]
+  * Devoxx [[http://www.devoxx.fr/]]
+  * Droidcon [[http://fr.droidcon.com/2014/]]
+  * Cara coding [[http://lyon.clubagilerhonealpes.org/activites/coding-dojo]]

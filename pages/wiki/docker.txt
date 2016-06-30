@@ -1,0 +1,209 @@
+====== Docker ======
+===== WHY? =====
+  * Run on every plateform (however linux is better)
+  * Do not have to run multiple VM in order to test multiple environements ==> less resources needed 
+  * Separation of the app ==> microservices architecture
+
+===== WHEN? =====
+  * Distribute your OS with a team
+  * Use the same environement as the production one without really intalling it
+  * When you have environements (DEV/ INT/ PROD)
+  * When you want to share a database for your dev team
+  * Integration tests that are really long. (run them in a container and do your job)
+  * database migration...
+
+**Notes:**
+  * There is not yet an integration with intelij ==> if you have intelij on your machine, and the app on docker, you cannot build it from intelij 
+
+===== HOW ?=====
+**Use existing images in order to build your own personalized containers. **
+
+
+==== STEP 1: Install it ====
+
+ You will find the official documentation here. 
+[[https://docs.docker.com/installation/]]
+
+**Note:** For fedora there is a much easier way of installing it than in the official documentation. (Docker is included in the official repository of Fedora. No need to add the docker repository)
+<code>
+
+#be sure you don't have docker (is different than the docker you want)
+ sudo yum -y remove docker 
+
+# update packages
+sudo yum update
+
+#sudo yum install docker-io
+sudo service docker start
+
+</code>
+
+Then you still have to do the usual stuff.. start docker, create a docker group, make the docker daemon to start at boot, add the proxy...
+<code>
+# start docker
+sudo systemctl start docker
+
+#start docker at boot
+sudo systemctl enable docker
+
+#docker group and user rights.
+sudo groupadd docker
+sudo chown root:docker /var/run/docker.sock
+sudo usermod -a -G docker YOUR_USER_NAME
+</code>
+
+
+==== STEP 2: Image/Container ====
+  * **Image =**  a snapshot of a container. Readonly.
+  * **Container =** instance of a snapshot that contains a writing partition. 
+This example should help you understand the difference between an image and a container. 
+
+  * Run your first container.  
+<code>
+   # This will run the command echo on a ubuntu image.
+   # In the same time the container will remain created 
+   # The container name will be test
+   docker run --name CONTAINER_NAME_HELLO ubuntu:latest /bin/echo 'Hello world' 
+</code>
+
+  * Check that the container was created:
+<code>
+docker ps -a
+# You will see that the container got automatically a name. 
+</code>
+
+
+
+  * Check installed images:
+<code>
+# check the list of the installed images
+docker images
+# You will find the latest ubuntu image downloaded.
+</code>
+
+  * Kill and remove the container:
+<code>
+# check the list of the installed images
+docker kill CONTAINER_NAME_HELLO
+docker rm CONTAINER_NAME_HELLO
+# You will find the latest ubuntu image downloaded.
+</code>
+
+  * Check again the image and the container
+<code>
+docker ps -a
+docker images
+</code>
+
+
+  * Run the commandline into an existing image
+<code>
+# http://docs.docker.com/articles/basics/
+# running-an-interactive-shell
+docker run -i -t ubuntu:latest /bin/bash
+</code>
+
+
+**This is a simple method of running a container.  However, if you wish to :**
+  * run multiple commands in your container 
+  * use this container several times 
+  * have links between several containers
+**you may want to use dockerfile and docker-compose.**
+
+==== Step 3: Dockerfile + Docker-compose ====
+
+A dockerfile will define all the commands to run on a image in order to create your container. 
+You can define multiple dockerfiles and specify the order to run, the links between these dockerfiles, the ports to expose on a yml file (docker-compose).
+
+=== STEP 1: Create a dockerfile===
+<code>
+# create a folder for your dockerfiles
+mkdir -p /var/docker_projects/MY_FIRST_DOCKERFILE
+
+#create a file named dockerfile 
+vim /var/docker_projects/MY_FIRST_DOCKERFILE/Dockerfile
+</code>
+
+
+**Fill in the Dockerfile.**
+  * **FROM** defines the base image that you are using. [[https://registry.hub.docker.com/]] 
+  * **MAINTAINER** optional. The creator/mainter name and usually e-mail.
+  * **RUN** all the commands that are to be executed on the base image in order to create your container
+  * **VOLUME** volume to be added to your container
+  * **WORKDIR** name of the volume used as a working directory
+  * ...
+
+<code>
+# My first dockerfile. 
+FROM ubuntu:latest
+MAINTAINER Alina GHERMAN
+
+VOLUME /srv
+RUN apt-get update && apt-get install -y openjdk-7-jdk 
+WORKDIR /sr
+
+</code>
+
+
+=== STEP 2: Create a yml file ===
+**Note:** You have to install docker-compose first
+  * **build:** path to the dockerfile that defines the container
+  * **command:** command to run on the container
+  * **volumes:** before two points add the folder that you want to have in your container. After the two points add the volume in which you want to have this folder.
+  *  **ports:** the ports that you have exposed in your container and you want to have on your machine
+
+<code>
+mycontianername:
+        build: ./path/to/dockerfile  
+        command: sh java -version
+        volumes:
+        - .:/srv
+        ports:
+        - 3000:3000
+        privileged: true
+</code>
+==== NOTES: ====
+Start/Stop all containers:
+<code>
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+</code>
+===== HOW DOES IT WORK? =====
+Docker is working with linux sockets.
+
+In fact, if you have docker, you will normally have a file called **docker.sock** in the folder** /var/run.**
+<code>
+/var/run/docker.sock
+</code>
+
+In order to see that docker is really running with sockets you can check the API: [[https://docs.docker.com/reference/api/docker_remote_api/]]
+
+An example:
+<code>
+
+</code>
+
+TO BE CONTINUED
+
+
+===== ERRORS AND FIXES =====
+==== Cannot start docker compose anymore ====
+
+<code>
+$ docker-compose up
+
+Couldn't connect to Docker daemon at http+docker://localunixsocket - is it running?
+If it's at a non-standard location, specify the URL with the DOCKER_HOST environment variable.
+</code>
+
+
+Solution:
+<code>
+$ sudo service docker stop
+
+Redirecting to /bin/systemctl stop  docker.service
+
+$ sudo service docker start
+
+Redirecting to /bin/systemctl start  docker.service
+</code>

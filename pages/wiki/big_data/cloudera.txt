@@ -1,0 +1,22 @@
+====== Cloudera ======
+Cloudera is a company that focuses on Apache-Hadoop and that created the **Cloudera distribution of Hadoop**=> CDH.
+
+  * Provides support, consultng,training for Hadoop users
+  * Cloudera Staff are commiters to most of the Hadoop projects
+
+{{:wiki:big_data:cdh_diagram-2014-02-620x394.png?|}}
+
+**Cloudera Enterprise = Cloudera Express + extra Cloudera Manager features**
+
+
+
+===== Free VM: =====
+http://www.cloudera.com/content/cloudera/en/documentation/core/v5-2-x/topics/cloudera_quickstart_vm.html
+
+===== CHD version and packaging: =====
+http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cdh_vd_cdh_package_previous.html
+
+
+
+''sources:''
+http://www.cloudera.com/content/cloudera/en/products-and-services/cdh.html

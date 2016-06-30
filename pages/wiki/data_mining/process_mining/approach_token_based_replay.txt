@@ -1,0 +1,15 @@
+==== Token-based replay ====
+{{ :wiki:data_mining:fitnessformula_token.png?nolink&300 |}}
+  * p+m>=c>=m
+  * r=p+m-c
+
+**limitations:**
+  * visible and unique label
+  * the token values may be too optimistinc (token flooding)
+  * the local decisions are not allways good enought => closest path
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

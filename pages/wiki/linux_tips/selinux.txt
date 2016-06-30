@@ -1,0 +1,27 @@
+===== SELinux =====
+Good references:
+  * [[http://www.crypt.gen.nz/selinux/disable_selinux.html]]
+  * [[http://fedoraproject.org/wiki/SELinux/EnforcePolicy]]
+  * [[http://www.sillycon.org/2014/07_29_selinux-basics-for-dummies-part-1.html]]
+
+
+----
+**What is it?**
+  * SELinux =  Security-Enhanced Linux
+  * is a Linux kernel security architecture
+  * with SELinux you can define who can unlink, append files,mode a file etc. (mode finely defined control over linux file than write/read/execute)
+  * **it has 3 modes:**
+        * Enforcing: implement all SELinux policies
+        * Permissive: used for debugging. The SELinux policy is not enforced, but everything is logged.
+        * Disabled: SELinx is disabled
+
+----
+**How to check it's state?**
+Use the **getenforce** command.
+
+
+----
+**How to modify it?**
+Modify the file **/etc/sysconfig/selinux** and set a new value for the SELINUX variable:
+ 
+''SELINUX=disabled''

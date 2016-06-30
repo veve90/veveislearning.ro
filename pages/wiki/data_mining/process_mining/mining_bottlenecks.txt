@@ -1,0 +1,12 @@
+====== Mining Bottlenecks ======
+  * take into consideration the waiting time for each activity (token was enabled but not fired)
+  * make statistrics over the waiting time/activity (average/standard deviation..)
+  * compute the routing probability : the probability to take one branch and not another branch
+  * Disco/Prom is computing this and highlighting this in red
+
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

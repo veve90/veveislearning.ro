@@ -1,0 +1,65 @@
+  *  [[wiki:tips:conferences]]
+  *  [[wiki:tips:online_Courses| Online Courses]]
+  *  [[wiki:tips:certifications| Certifications ]]
+  *  [[wiki:tips:good_references| Good references]]
+
+
+
+
+
+
+====== Others ======
+
+
+===== Install Mongodb  on fedora =====
+1. edit the file **/etc/yum.repos.d/mongodb-org-3.0.repo**
+<code>
+[mongodb-org-3.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/6/mongodb-org/3.0/x86_64/
+gpgcheck=0
+enabled=1
+</code>
+
+2. install
+<code>
+sudo yum install -y mongodb-org
+</code>
+
+===== Install Node js on viperr =====
+<code>
+# install
+yum install nodejs
+yum install npm
+
+# proxy if needed
+npm config set proxy http://proxy.company.com:8080
+npm config set https-proxy http://proxy.company.com:8080
+
+#build your project
+npm install -g
+ 
+</code>
+
+===== How to recover your saved passwords from fillzeilla =====
+Search for the file **sitemanager.xml** and just check in (they are wrote in plain text)
+  * **Windows XP/2K:** “C:\Documents and Settings\**username**\Application Data\FileZilla”
+  * **Windows Vista, windows 7** “C:\Users\**username**\AppData\Roaming\FileZilla\”
+  * **Linux:** “/home/**username**/.filezilla/” - See more at: http://unsharptech.com/2008/05/20/filezilla-ftp-passwords-stored-in-plaintext/#sthash.Tj1Jyfy8.dpuf
+
+===== Setting my home wifi ===== 
+
+**Notes:** to use http://www.techspot.com/community/topics/i-want-to-connect-2-wi-fi-routers-to-create-2-separate-networks.152424/
+	  	
+The steps that I folowed to set my home network:
+
+
+==== STEP 1: Choose a good wifi chanel ====
+
+  * http://www.commentcamarche.net/faq/12507-choisir-le-meilleur-canal-wifi
+  * nirsoft : Wifi Info: {{:wiki:tips:wifiinfoview.zip|}}
+  * nirsoft: wifi channel monitor: {{:wiki:tips:wifichannelmonitor-x64.zip|}}
+
+==== STEP 3: Check the list of all computers and devices that are currently connected to your network ====
+
+  * nirsoft: WNetWatcher: {{:wiki:tips:wnetwatcher.zip|}}

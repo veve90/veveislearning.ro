@@ -1,0 +1,26 @@
+
+=====Using regions to construct a petri net from a transition system =====
+
+- transform the transition system into a petri net equivalent
+
+{{ :wiki:data_mining:statebasedregion.png?nolink |}}
+
+  * - if one "a" is entering/all "a" are entering
+  * - if one "a" is exiting/all "a" are exiting
+  * - if one "a" is inside/all "a" are Inside
+  * - if one "a" is outside/all "a" are outside
+  * - if the starting point is in a region, we are adding a token in that place 
+
+**Trivial regions**
+  * the empty region
+  * the region consisting of all states
+
+**Any combination of 2 regions are also a region.**
+
+{{ :wiki:data_mining:constructpetrinet.png?nolink&300 |}}
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

@@ -1,0 +1,12 @@
+====== IPTable======
+
+**Good references**
+  * [[http://wiki.centos.org/HowTos/Network/IPTables]]
+
+**What is it?** IPTable or iptables/netfilter is a built in firewall of CentOS.
+
+**How to check the iptable rules?**
+''iptables -L''
+
+**How to modify the iptable rules?**
+You can modify the rules in the file ''/etc/sysconfig/iptables''. 

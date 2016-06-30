@@ -1,0 +1,16 @@
+====== HBase, Json and Hive ======
+Firtsly For using HBase and Hive you need the folowing jars:
+  * CDH4: http://www.cloudera.com/content/cloudera/en/documentation/cdh4/latest/CDH4-Installation-Guide/cdh4ig_topic_18_10.html 
+  * CDH5: http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cdh_ig_hive_hbase.html
+
+For using Json with Hive yo will need the folowing jar: https://github.com/rcongiu/Hive-JSON-Serde
+
+After having loaded all this jars into hdfs and made 
+ADD JAR <path to jar> for each one of them we can really start the work.
+
+
+====== TODO ======
+
+
+
+

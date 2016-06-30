@@ -1,0 +1,28 @@
+===== Process Mining link to Data Mining =====
+
+The data mining techniques can classify our data in female/male etc. and help us know why a certain token did a certain movement in a or-split/and-split etc.
+
+  * **predictor variables =** all data that we have about our activities
+  * **predicted/response variable =** activities
+
+**note:** the more variables we have the more combinations we have and the more sparse will be our data
+{{ :wiki:data_mining:predictorpredictedvariable.png?nolink&300 |}}
+
+[[wiki:data_mining:process_mining:link_to_datamining|more...]]
+
+we can use guards or probabilistics in order to make the link between data mining and process mining:
+  * guards: shows the different paths that can be taken in the process mining representation
+  * probabilistrics: shows the probabilistics that a certain guard thake a certain path in the representation
+{{ :wiki:data_mining:datadependedprobabilities.png?nolink&300 |}}
+
+**Guards:**
+  * descriptive
+  * prescriptive
+
+**Note:** in Prom => search for the "data-aware" keyword
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

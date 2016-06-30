@@ -1,0 +1,69 @@
+====== 3. Hadoop Cluster Planning (16%) ======
+
+
+===== Choosing the hardware and the OS on the Apache Hadoop cluster. =====
+**  - Slave Nodes: Data Nodes and NodeManager nodes**
+      - Enable hyper-threading, quickPath
+      - usualy disk and network IO bound
+      - usualy one map /reduce = 2-4 GB RAM, each AP = 1GB RAM
+      - total number of tasks = number of physical processor cores - 1
+      - 2-4 disks per node
+      - 3.5" disks
+      - JBOD disks
+      - Storage node:
+          - Usually: 12*3TB SATA || hard drives, JBOD configuration
+          - 2*6 code 2.9 GHz CPU
+          - 64 GB RAM
+          - 2*1 GB Ethernet
+      - Memory node:
+          - 24*1TB SAS hard drive, JBOD
+          - 2*6 code 2.9 GHz CPU
+          - 96GB RAM
+          - 1*10 GB Ethernet
+**  - Master Nodes: NameNodes and/or Standby NameNode and/or ResourceManager daemon**      
+        - Usually 96-128 GB
+        - RAID Disks 
+
+
+
+
+
+===== Analyze the choices in selecting an OS =====
+  * CentOS : widely used in production
+  * RedHat : support contracts
+  * Ubuntu : use a LTS (Long Term Support) version 
+  * Suse : there is a package for SuSE provided by Cloudera
+
+===== Understand kernel tuning and disk swapping =====
+  * Disabke swapping
+  * Kernet Tuning: Enable hyper-threading, quickPath
+
+=====  Given a scenario and workload pattern, identify a hardware configuration appropriate to the scenario =====
+  * Real-TIme Use Case ==> CPU bould slaves
+===== Given a scenario, determine the ecosystem components your cluster needs to run in order to fulfill the SLA =====
+
+  * Real-Time ==> Impala, Spark
+  * Batch  ==> Pig, Hive
+===== Cluster sizing: given a scenario and frequency of execution, identify the specifics for the workload, including CPU, memory, storage, disk I/O =====
+**Volume:**
+  * Initial data
+  * Added data per week
+  * Weeks to take into consideration
+  * Replication factor
+  * Number of times the data is replicated in the workflow
+  * Temporary data: 25%
+  * Non HDFS data (OS..)
+
+**RAM**
+  * Master: 64 GB for clusters of less than 20 nodes
+  * Slaves: 64-96 GB
+
+
+===== Disk Sizing and Configuration, including JBOD versus RAID, SANs, virtualization, and disk sizing requirements in a cluster =====
+  * Slaves: JBOB is recommended
+  * Masters: RAID is recommened
+  * Dedicated servers are recommended
+  * Disk Sizing requirements depend on your data
+  * SANs are not recommended. Instead use SATA disks.
+===== Network Topologies: understand network usage in Hadoop (for both HDFS and MapReduce) and propose or identify key network design components for a given scenario =====
+  * Use the spine fabric Network Topology

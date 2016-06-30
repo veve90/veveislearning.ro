@@ -1,0 +1,595 @@
+====== Pattern Discovery in Data Mining ======
+
+Here I will put my personal notes from the coursera course **Pattern Discovery in Data Mining** that is made by 
+**Jiawei Han** and that started in February 2015.
+
+  * The course informations: [[https://www.coursera.org/course/patterndiscovery]]
+  * Chapters from the book "Knowledge Discovery From Data" wrote by Jiawei Han, Micheline Kamb and Jian Pei {{:han_data_mining_3e_chapters_1_6_7.pdf|}}
+  * **Jiawei Han** Slides:
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_1.1.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_2.1.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_2.2.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_2.3.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_3.1.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_3.2.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_3.3.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_3.4.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_3.5.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_3.6.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_4.1.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_4.2.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_4.3.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_4.4.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_5.1.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_5.2.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_5.3.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_5.4.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_5.5.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_5.6.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_6.1.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_6.2.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_6.3.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_6.4.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_6.5.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_6.6.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_6.7.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_6.8.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_7.1.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_7.2.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_7.3.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_7.4.pdf|}}
+      * {{:wiki:data_mining:pattern_discovery:pattern_discovery_lecture_7.5.pdf|}}
+      * 
+
+
+Note: 
+  * - there may be some other information that are added from other source
+  * - this page describe my personal comprehension of the course, there may be mistakes
+
+
+**Notations**
+
+  * TDB: Transactional Database
+  * PB: Pattern based
+===== A brief introduction to data mining =====
+{{ :dataminingintroduction.png?nolink |}}
+  * Why? 
+      * Big Data => how can we exploit it ? 
+  * What is it?
+      * KDD (Knowledge discovery fropm data)
+      * data mining
+      * machine learning
+    * Is situated after an ETL process
+    * Pattern evaluation is situated after data mining techniques
+  * Data view
+    * Data type view: 
+        * structured
+        * unstructured
+    * knwlege view
+        * pattern discovery
+        * classification
+        * cluster ing
+        * outliner
+        * data summary(OLAP)
+    * Aplication view:
+        * mining text data
+        * recommendations
+        * mining biological and medical data
+        * mining social networks
+
+
+
+===== Definitions and why it is important===== 
+
+
+  * what are patterns?
+      * Patterns: set of items,subsequences,substructures that occur frequently toghether
+  * Examples:
+        * what products are often bought toghether
+        * what code segments likely contain copy and paste bugs?
+        * What products are boughts after buying an iPad?
+  * Finding inherent regularities in data set
+  * Foundation for many data mining tasks
+        * association
+        * mining sequential
+        * classification
+        * cluster analysis
+===== Frequent pattern and association rules===== 
+====frequent pattern====
+{{ :pattern_frequent_itemset.png?nolink |}}
+support(beer) = 3
+support(nuts) = 3
+support(diaper) = 4
+support(eggs) = 3
+support(cofee) = 2
+====association rules====
+{{ :pattern_association_rules.png?nolink |}}
+beer -> diaper (60%)
+    * sup(beer U  diaper ) = 3/5  =>  60%
+    * sup(diaper) =  4/4 => 100%
+diaper-> beer (80%)
+    * sup(beer U diaper ) = 3/5  =>  60%
+    * sup(beer) = 3/4 =>75%
+  
+minsup = 50% & minconf = 50%:
+  * Beer → Nuts, Nuts → Beer, Beer → Diaper, Diaper → Beer, Nuts → Diaper, Diaper → Nuts
+
+
+===== Closed patterns and max patterns=====
+  * **closed patterns:** a pattern is closed if X is frequent and there is no super pattern (y included in X) with the **same support as X**
+  * **max prattern:** a pattern is a max pattern if X is frequent and there is no frequent super pattern 
+      * we do not care about support any more
+===== The downward closure property/ the apriori property=====
+  * if {beer,diaper,nuts} is frequent  so is {beer,diaper}
+  * Are taking this principle in consideration
+      * Apriori
+      * Eclat
+      * FPGrowth
+=====  Apriori =====
+  * **pruning**
+
+{{ :pruning.png?nolink |}}
+      * acde cannot be a candidate so it is pruned
+      * bcd is included because abcd is frequent
+
+  * **reduce passes of transaction database scans**
+      * partitioning: 
+                * only 2 scans necessary
+                * each partition < a certain threashold
+                * any itemset that is potentially frequent in TDB must be frequent in at least one of the partitions of the TDB
+
+      * dynamic itemset counting
+
+  * **shrink the number of candidates**
+      * hashing (DHP)
+          * start with a hash table
+          * a k-item whose corresponding hashing bucket count is below the threshold cannot be frequent
+
+      * pruning by support lower bounding
+      * sampling
+
+  * **exploring special data structures**
+      * three projection
+      * h-miner
+      * hypercube decomposition
+
+=====  ECLAT: Vertical data format =====
+{{ :ecalt.png?nolink|}}
+
+
+  * represent data in a vertical way in order to do intersection easily
+[[http://en.wikibooks.org/wiki/Data_Mining_Algorithms_In_R/Frequent_Pattern_Mining/The_Eclat_Algorithm]] 
+=====  FPGrowth =====
+{{ :fpgrowth.png?nolink |}}
+  * here the frequency of {f,c,a,m} is 2, the frequency of {f,c,a,b} is one
+  * this is an FP-Growth
+  * in order to create this FP-Growth three there is an ordering and partitioning phase
+  * 
+[[http://www.florian.verhein.com/teaching/2008-01-09/fp-growth-presentation_v1%20%28handout%29.pdf]]
+[[http://web.engr.illinois.edu/~hanj/pdf/dami04_fptree.pdf]]
+[[http://www.kdd.org/sites/default/files/issues/2-2-2000-12/han.pdf]]
+
+  * parallel projection => space costy but can process in parallel
+  * partition projection => passing the unprocessed parts into subsequenct partitions
+
+=====  Pattern evaluation =====
+  * interesting measures for detemining the interesting rules:
+      * objectives measures and subjective measures
+    * objective measures:
+        * confidence
+        * support
+        * **lift**
+                {{ :lift.png?nolink |}}
+        * **x2**
+                 {{ :x2.png?nolink |}}
+        * **null invariance**
+            * Jaccard
+            * AllConf
+            {{ :nullinvariantmeasures.png?nolink |}}
+  * **mining multi-level associations**
+             * try to uniform min-support accros multiple levels
+             * use the **level reduces min support**
+             * use a **shared multi level mining** method
+             * it is necessary to have customized min-support settings for different kinds of items => "group-based "indivisualized"" support
+   * **mining multi-dimensional associations rules: age(18,25) and buys(popcorn) => buys(coke)**
+             * categorical attributes => try to make a cube
+             * quantitative attributes => clustering
+   * **mining quantitative associations: some attributes are numerical**
+             * do a static discretization and then do a cube-based agregation
+                     * partition in function of age, income, buys...
+             * do a deviation analysis
+                     * overall mean... if the mean has a  big deviation from the overall mean then we have an interesting rule. 
+                     * => do a Z-Test in order to confirm the rule
+                     * try to find subrules (include other dimensions)
+             * clustering => distance based association=> do a  first one-dimension clustering and then apply association rules finding
+   * **mining negative correlations**
+             * rare patterns are different then negative patterns
+             * rare patterns are rule with a low support but that are interesting
+             * negative patterns are items that are unlikely to happen toghether
+             * example of rule for identification sup(AUB)<<sup(A) x sup(B). Be carefull about the null invariance problem
+             * another example of measure for identification that is null invariante (P(A|B)+P(B|A))/2<e (kulczynski measure)
+                   * note: P(B|A) = P(AUB)/P(A)
+   * **mining compressed patterns**
+             * closed patterns require identical support so it doesn't compress some rules with closed support but new items in the item set => apply a pattern difference measure 
+             * **Dist(P1,P2) = 1- abs(transactions(P1)intersected with transactions(P2))/abs(transactions(P1) U transactions(P2)**
+             * **delta-clustering** lets us do this
+             * apply a redudancy-aware top-k patterns algorithm: exemple MMS(MAximal MArginal Significance) for measuring the combined significance of a pattern set
+   * **mining colossal patterns**: long/large patterns
+             * is needed in bio-informatics/social network analysis, software engineering
+             * the major challence is that any sub-pattern of a frequent pattern is frequent
+             * use the Pattern-Fusion algorithm: merge multiple small patterns with similar support
+             * core patterns:subsets that have similar support and that combiened will result in the result pattern
+             * The core patterns can be clustered toghether to form "dense balls"
+
+
+===== Constrainted based pattern mining =====
+  * knowledge type constraines
+  * data constraint
+  * dimensions/level constraint(in relevance with region...)
+  * pattern/rule constrain (how to trigger bigger sales?)
+  * **pattern space pruning vs data space pruning constraints**
+    * **pattern space pruning**
+        * __anti monotonic:__ if constraint c is violated, its further mining can be terminated
+            * sum(S.price)<=15
+            * sum(S.Price =>15 is not anti monotone because if my subset has the price grater than 15, then I can still add nes items
+            * support>sigma is anti-monotone
+        * __monotonic:__ if c is satisfied, no need to check again
+            * if an itemset S satifies the constraint c, so does any of its superset
+            * sum(S.Price)>=15 is monotone
+            * median(S.price)> is monoton
+        * __succint:__ if the constraint c can be enforced by directly manipulating the data
+        * __convertible:__ 
+              * c can be converted to monotonic or anti monotonic if items can be properly ordered in processing
+              * c1:avg(S.profit)>20 is not monotone, or anti-monotone
+              * order data in transaction in order to be able to do any prunning
+              * if we apply the ordering rule then c1 is an anti-monotone rule
+              * item ordering cannot work anymore with apriori pruning
+              * the median(S.price)>10 is convertible
+    * **space pruning constraints**
+        * __data succint__: data space can be pruned at the initial pattern mining process
+            * to find items without item i we can remove it and then mine
+            * to find items that contains items i we have to mine only i-projected items in the DB
+        * __data anti monotonicity:__ if a transaction t does not satisfy c, then t can be pruned to reduce data processing effort
+     
+
+    * A pattern is (d, tau)-robust if d is the maximum number of
+items that can be removed from alpha for the resulting pattern to remain a tau-core pattern of alpha.
+
+
+
+In order to mine multiple constraintes we have to be carefull at:
+  * the order of applying the constraintes
+  * try to apply an order that transforms our rules in anti-monotonic constraintes
+  * c1:avg(S.profit)>20 and ac2:vg(S.price)<50
+        * sort in profit descending order: C1 and then C2
+        * for each project DB, transform C1 into an anti-monotonic constraint and apply C2,c1
+
+
+====== Sequential Pattern Mining ======
+- **sequential pattern mining applications:**
+  * customer shoopping sequences
+  * weblog click streaming
+- **2 types:**
+  * gapped: shopping, clicking streams
+  * non-gapped: biological sequences
+- **sequential pattern mining: giving a set of sequences find the complete set of frequent subsequences**
+  * a sequence <(ev)(ab)(df)cb>
+  * an element may contain a set of items: ab
+  * an item/an event: a
+  * a subsequence : <e(va)b>
+  * <a(abc)(ac)d(cf)> ≠ <a(ac)(abc)d(cf)> 
+  * <a(abc)(ac)d(cf)>  - 5 elements, 9 items
+
+
+
+
+===== GSP =====
+  * {{:wiki:data_mining:pattern_discovery:gsp.pdf|}}
+  * initial candidated: all singleton sequences
+  * generate length 2 candidate sequences
+      * the number of generated length-2 candidates is **the number of length1 * the number of length1 -1**
+      * if there is no apriori pruning then the number of generated length-2 candidates
+            * **the number of length1 * (the number of length1 -1)/2 +the number of length1*the number of length1**
+  * scan db to find length 2 frequent sequences
+  * generate length 3 candidate sequences
+  * ....
+  * untill no frequent sequence or no candidate can be found
+===== SPADE=====
+  * SPADE Algorithm in R: [[http://en.wikibooks.org/wiki/Data_Mining_Algorithms_In_R/Sequence_Mining/SPADE]] 
+  * use the same data format as ECLATE
+  * grow the subsequences(patterns) one item at a time by **apriori** candidate generation
+{{:wiki:data_mining:pattern_discovery:spadee.png|}}
+===== PrefixSpan=====
+==== Vocabulary ====
+
+  * **Prefix**
+      * Given two sequences α=<a1a2…an> and  β=<b1b2…bm>,  m≤n, **Sequence β is called a prefix of α if and only if:**
+          * bi= ai for i ≤ m-1;
+          * bm ⊆ am;
+      *  **example:** α =<a(abc)(ac)d(cf)> has the prefix β =<a(abc)a>
+  * **Projection**:
+      * Given sequences α and β, such that β is a subsequence of α. 
+      * A subsequence α’ of sequence α is called a projection of α w.r.t. β prefix if and only if:
+            * α’ has prefix β;
+            * There exist no proper super-sequence α’’ of α’ such that:α’’ is a subsequence of α andalso has prefix β.
+      * Example: α =<a(abc)(ac)d(cf)> , β =<(bc)a> , α’ =<(bc)(ac)d(cf)>
+
+==== Algorithm ====
+  * Input of the algorithm :  A sequence database S, and the minimum support threshold min_support.
+  * Output of the algorithm:  The complete set of sequential patterns
+{{ :wiki:data_mining:pattern_discovery:prefixspan1.png?nolink |}}
+{{ :wiki:data_mining:pattern_discovery:prefixspan2.png?nolink |}}
+
+Exercice:
+{{ :wiki:data_mining:pattern_discovery:prefixspanex1.png?nolink |}}
+  * SID-10: <>
+  * SID-20: <>
+  * SID-30: <(ab)(df)cb>
+  * SID-40: <cbc>
+
+
+===== CloSPAN =====
+  * for the same support, we will find the longest one
+  * we want to directly mine closed sequential pattern
+  * 2 types of pruning:
+      * backward subpattern pruning
+      * backward superpattern
+
+
+===== Constraint based Sequential pattern mining =====
+- anti-monotonic constraints: sum(S.price)<150
+- monotonic constraints: sum(S.price)>150
+- data anti monotonic:  
+- succint constraint
+- convertible constraints:
+    * value_avg(S) < 25
+- order constraint: some items must happen before others
+- min/max -gap constraint
+- max-span constraint
+- window size constraint
+
+
+
+====== Episodes and Episode Pattern mining ======
+  * serial episodes: A-> B
+  * paralell eisodes: A | B
+  * regular expression
+
+
+====== Graph pattern mining ======
+{{ :wiki:data_mining:pattern_discovery:graphpatternmining.png?nolink |}}
+  * Definitions:
+      * **vertex:** a point where two ot more straight lines meet. A corner. 
+{{ :wiki:data_mining:pattern_discovery:vertex.png?nolink |}}
+            * source: [[https://www.mathsisfun.com/definitions/vertex.html]]
+
+      *** edges:** unordered set of vertices
+
+
+
+  * **applications**: 
+      * bioinformatics
+      * chem-informatics
+      * social networks
+      * cell phone networks
+      * program execution flows
+      * ...
+  * **generation of candidate subgraphs**
+      * apriori method
+      * pattern growth method
+  * **search order algorithms**
+     * breadth vs depth
+  * **order of pattern discovery:**
+      * path-> tree-> graph..
+===== A priori =====
+  * a size k subgraph is frequent if and only if all of its subgraphs are frequent
+  * algorithms:
+    * AGM: growth with one vertex at a time
+    * FSG: growth with one edge at a time (more efficient than  AGM)
+===== gSpan =====
+  * the ideea is to do a depth-first growth of subgraphs from k-edge to (k+1)-edge, then (k+2)-edge subgraphs
+  * the major challenge is the generation of many subgraphs
+  * the gSpan ideea is to impose an order of creating the graphs (use vertexes and create graphs only for the smallest index of each vertex in each step)
+
+===== CloseGraph=====
+  * an n-edge frequent graph may have 2 power n subgraphs => try to minimize that
+  * the closed frequent subgraphs is used to handle the graph pattern explosion problem
+  * the closeGraph can be done by extending the gSpan algorithm
+
+===== gIndex=====
+  * we index some parts of the graphs (like google is doing with documents)
+  * the path index may not work well, we should carefully choose what we are indexing. 
+        * =>the solution is to index subgraphs
+        * => index only frequent substructures and discriminative substructures
+
+
+===== SpiderMine=====
+  * mining top-k large structural patterns in a single network
+  * r-spider: a frequent pattern P that is linked to a vertex P from wich you can reacl a lot of other vertices
+  * is very similar to pattern-fusion
+{{ :wiki:data_mining:pattern_discovery:spideralgo.png?nolink |}}
+  * the larger the pattern, the greater chance it is hit and saved
+
+====== Classification ======
+  * is a supervised learning type(learning by example)
+{{ :wiki:data_mining:pattern_discovery:classification.png?nolink |}}
+  * methods:
+    * SVM
+    * Neural network
+    * decision tree
+    * bayesian network
+
+===== Pattern based classification=====
+  * it is interesting because you can put the data into a context
+  * exemple: apple can be apple pie or apple i-pad
+    * CBA: Classification based on associations
+    * Emerging patterns
+    * CMAR
+    * CPAR
+    * RCBT
+    * Lazzy classifier
+    * Descriminative pattern based classification
+===== Associative classification - CBA and CMAR=====
+  * CBA: Classification based on associations
+        * first mine high-confidence, high-support class association rules
+        * class association rules: the right part of a rule is a class label 
+  * CMAR: Classification based on multiple association rules
+        * this is an improvement of CBA
+        * added 2 rules of pruning
+            * if R1 is more general than R2 and conf(R1)<conf(R2) then we can prune R2
+            * use the x2 test of statistical significance in order to prune rules that are not positively correlated
+        * when there are multiple rules that match X, we are going to use X2 in order to define the strongest rule, based on statistical correlation
+===== Discriminative Pattern-based Classification=====
+  * we ca use this alorithm in combination to any other algorithm (SVN etc)
+  * **Principle**: Mining discriminative frequent patterns as high-quality features and then apply any classifier 
+{{ :wiki:data_mining:pattern_discovery:discriminativepatternbasedclassification.png?nolink |}}
+  * feature
+      * construction: frequent itemset mining
+      * selection: MMR(Maximal MArginal Relevance)
+  * **use the selected feature for model learning (SVM...)**
+  * **Evaluation**:
+        * **Information Gain vs pattern length**: The discriminative power of k-itemsets (for k > 1 but often ≤ 10) is higher than that of single features
+        * information gain:
+{{ :wiki:data_mining:pattern_discovery:informationgain.png?nolink |}}
+        * the information gain increase with the frequency of the pattern
+        * 
+===== DDPMine=====
+  * Direct Mining of Discriminative patterns
+{{ :wiki:data_mining:pattern_discovery:ddpmine.png?nolink |}}
+  * Algorithm:
+      * **Input:** A set of training instances D and a set of features F
+      * Iteratively perform feature **selection based** on the “sequential coverage” paradigm
+      * Select/take the feature fi with the **highest discriminative power(information gain)**
+      * Remove instances Di from D covered by the selected feature fi
+  * Implementations:
+      * FP-Growth with branch-and bound search
+  * DDPMine: A feature-based approach, i.e.,mining only the most discriminative patterns
+  * 
+  * Methodsfor mining discriminative frequent patterns for effective classification
+      * PatClass: Discriminative-Pattern-Based Classification [Cheng et al., ICDE’07]
+      * Harmony [Wang & Karypis, SDM’05]
+      * DDPMine: Direct discriminative pattern mining [Cheng et al., ICDE’08] **=> THE BEST**
+
+
+====== Pattern Mining applications ======
+===== Frequent Patttern Mining for Test Data =====
+  * we'll get better results by using sets of words than by using single words while searching for patterns
+  * there are different strategies:
+
+          * **Generate bag-of-words: High model complexity: Tends to overfitting; High inference cost: Slow**
+                * **Bigram Topic Model:** Probabilistic generative model that conditions on previous word and topic when drawing next word
+                * **Topic N-Grams:** Create n-grams by concatenating successive bigrams (a generalization of Bigram Topic Model)
+                * **Phrase-Discovery LDA:** Each word is drawn based on previous m words (context) and current phrase topic
+
+          * **Post bag of words model inference, visualize topics with n-grams**
+                * **label topic**
+                * **turbo topic:** – Phrase construction as a post-processing step to Latent Dirichlet Allocation
+                      * Python library for doing LDA, topic finding[[https://radimrehurek.com/gensim/tut2.html]]
+                * **KERT:** 
+                      * Perform frequent pattern mining on each topic
+                      * Perform phrase ranking based on four different criteria
+                            * Popularity: ‘information retrieval’vs.‘cross-language information retrieval’
+                            * Discriminativeness: only frequent in documents about topic t
+                            * Concordance: ‘active learning’ vs.‘learning classification’
+                            * Completeness: ‘vector machine’ vs.‘support vector machine’
+
+
+          * **Prior bag of words model inference, mine phrases and impose the bag of words model**
+                * **ToPMine:**
+                              * Perform frequent contiguous pattern mining to extract candidate phrases and their counts.
+                              * Perform agglomerative merging of adjacent unigrams as guided by a significance score—This segments each document into a “bag-of-phrases”
+                              *  The newly formed bag-of-phrases are passed as input to PhraseLDA, an extension
+of LDA, that constrains all words in a phrase to each sharing the same latent topic
+                * ToPMine is faster than PDLDA,
+                * Evaluation: the significance score
+                   
+                   {{ :wiki:data_mining:pattern_discovery:significancescore.png?nolink |}}
+                   
+**Collocation:** A sequence of words that occur more frequently than expected
+                      * measures:
+{{ :wiki:data_mining:pattern_discovery:collocationmeasures.png?nolink |}}
+
+
+**Comparative study:**
+{{ :wiki:data_mining:pattern_discovery:comparative.png?nolink |}}
+
+===== Advanced Topics on Pattern Discovery =====
+==== Data Streams ==== 
+          * Features: Continuous, ordered, changing, fast, huge volumn
+          * Contrast with traditional DBMS (finite, persistent data sets)
+          * Huge volumes of continuous data, possibly infinite
+          * Random access is expensive: single scan algorithm (can only have one look)
+          * Data stream captures nicely our data processing needs of today
+          * Mining precise frequent patterns in stream data: Unrealistic
+          * Approximate answers are often sufficient for pattern analysis
+          * How to mine frequent patterns with good approximation?
+                * **Lossy Counting Algorithm:**
+                      * Major ideas: Not to keep the items with very low support count 
+                      * Advantage: Guaranteed error bound
+                      * Disadvantage: Keeping a large set of traces
+
+{{ :wiki:data_mining:pattern_discovery:lossycountingalgo.png?nolink |}}
+
+          * Output: items with frequency counts exceeding (σ – ε) N
+          * How much do we undercount? N/bucket-size = N/(1/ε) = εN
+              * Approximation guarantee
+                  * No false negatives
+                  * False positives have true frequency count at least (σ–ε)N
+                  * Frequency count underestimated by at most εN 
+
+
+
+==== Spatiotemporal and Trajectory Pattern Mining ==== 
+          * Spatial frequent patterns and association rule: A => B [s%, c%]
+              * A and B are sets of spatial or non-spatial predicates, e.g.,
+              * s%: support, and c%: confidence of the rule
+          * Example: Rules likely to be found
+              * is_a(x, large_town) ^ intersect(x, highway) → adjacent_to(x, water) [7%, 85%]
+          * Spatial data tends to be highly selfcorrelated
+          * **Progressive refinement:** First search for rough relationship and then refine it
+                  * Two-step mining of spatial association:
+                          * Step 1: Rough spatial computation (as a filter) : using MBR
+                          * Step2: Detailed spatial algorithm (as refinement)
+          * **Vocabulary:**
+              * **Flock:** At least m entities are within a circular region of radius r and move in the same
+direction
+              * **Convoy:** Uses density-based clustering at each timestamp; no need to be a rigid circle
+              * Flock and convoy: Both require k consecutive time stamps 
+              * **Swarm:** Moving objects may not be close to each other for all the consecutive time
+stamps
+
+{{ :wiki:data_mining:pattern_discovery:relativemovementpartterns.png?nolink |}}
+
+==== Pattern Discovery for Software Bug Mining ====
+  * Software is complex, and its runtime data is larger and more complex!
+  * Mining rules from
+        * source code
+        * revision histories
+  * Mining copy-paste patterns from source code: Z. Li, S. Lu, S. Myagmar, Y. Zhou, “CP-Miner: A Tool for Finding Copy-paste and Related Bugs in Operating System Code”, OSDI’04
+==== Pattern Discovery for Image Analysis ====
+  * An image can be characterized by visual primitives, e.g., interest points
+  * each cluster of primitive forme a transaction
+  * challenges:
+      * Images are spatial data
+      * Uncertainties of visual items and patterns
+          * Visual synonym and polysemy
+
+
+==== Pattern Mining and Society ====
+  * A potential adverse side-effect of data mining—Privacy could be compromised 
+  * Three categories on privacy issues arising out of data mining
+      * Input privacy (or data hiding)
+            * anonymise the data (a B2B environement)
+            * K-anonymity privacy requirement and subsequent studies
+                    * ℓ-diversity, t-closeness, and differential privacy
+      * Output privacy (or knowledge hiding)
+      * Owner privacy
+
+  * Data perturbation:
+            * Statistical distortion: Using randomization algorithms
+            * MASK [Rizvi & Haritsa VLDB’02]
+                  * Flip each 0/1 bit with a probability p 
+                  * Tune p carefully to achieve acceptable average privacy and good accuracy
+            * Cut and paste (C&P) operator [Evfimievski et al. KDD’02]
+                  * Uniform randomization
+                  * Methods developed on how to select items to improve the worst-case privacy 

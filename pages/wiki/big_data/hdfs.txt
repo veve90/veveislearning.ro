@@ -1,0 +1,49 @@
+====== Hadoop Distributed File System (HDFS) ======
+  * is a distributed file system inspired from **Google File System (Google FS)**
+  *** replicates data** accross multiple nodes. The replication factor is defined by a configuraiton
+  * Files are **wite once** ==> you cannot change the files
+  * HDFS is tracking and managing the number of replications over the cluster
+  * is built in a **Java language**
+  * It doesn’t relies on RAID storage in order to save data safetly ==> it makes replications for safety 
+  *** Is similar with a linux filesystem ext3**
+      * __As differences to ext3__	:
+        * Is a __userspace filesystem__, which means that:
+          * the code of the filesystem doesn’t run in the kernel
+          * the processes are not registered in the Linux VFS Layer
+          * it requires that the applications are built for this filesystem
+        * __is a distributed filesystem__
+        * __the block size__ is significantly larger than the block size of ext3 or any other classical filesystem. By default is 64 MB and there are some that increase it to 256 MB, or event 1GB.
+===== Properties =====
+  * Fault tolerance
+  * Master-slave architecture
+  * 2 security levels
+  * “Moving Computation is Cheaper than Moving Data”
+  * write-once-read-many access model
+  * Large Data Sets Not tens of million of small files
+
+===== Architecture=====
+
+  * HDFS Blocks: default size is 64 MB (configurable)
+  * Based on a replication factor the blocks are replicated on the cluster
+  * The bigger the replication is the bigger are the performances (data locality) and the reliability (you can loose more instances from the cluster whitouht loosing any data)
+
+{{:wiki:big_data:hdfs_archi.png?|}}
+
+  * NameNode 
+          * regulates the access to files by clients and manages the file system namespaces
+          * does operations like opening, closing, renaming, detemine the mapping of the blocks to DataNodes
+
+  * DataNode 
+        *  manages storage attached to the nodes that they run on
+          * is doing the acctual reading/writing operation asked by the clients.
+          * creates blocks, perform delete, and replication instructions
+          * performs instructions asked by the NameNode. 
+
+
+  * 2 types of architectures :
+      * HA (High Availability)
+      * without HA
+      * 
+
+''sources:''
+https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html

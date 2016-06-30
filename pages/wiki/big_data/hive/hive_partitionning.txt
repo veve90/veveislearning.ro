@@ -1,0 +1,42 @@
+====== Hive partitioning ======
+
+(Example)
+
+  * **Get the data:**
+<code>
+wget http://files.grouplens.org/datasets/movielens/ml-100k.zip
+unzip ml-100k.zip
+</code>
+  * **Upload the data using the cloudera interface**
+        * Go to the hue interface __<ip>:8888/filebrowser/__
+        * Upload files
+        * Select the __u.data__ file from the downloaded folder
+  * **Create one table and load the data into it**
+<code>
+LOAD DATA INPATH '/user/cloudera/u.data' OVERWRITE INTO TABLE u_data;
+CREATE TABLE u_data (
+  userid INT,
+  movieid INT,
+  rating INT,
+  unixtime STRING)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE;
+</code>
+
+  * **Create a partitioned table**
+<code>
+CREATE TABLE u_data_part (
+  userid INT,
+  movieid INT,
+  rating INT,
+  unixtime STRING)
+PARTITIONED BY (starts int)
+</code>
+
+  * **load the data into the partitioned table**
+<code>
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode=nonstrict;
+INSERT INTO TABLE u_data_part PARTITION (starts) SELECT userid,movieid,rating,unixtime, (rating+1) FROM u_data;
+</code>

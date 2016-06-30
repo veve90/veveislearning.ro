@@ -1,0 +1,9 @@
+====== Json Table to Parquet Table ======
+In order to transform one table that is stored with json in parquet we have to do something like:
+<code>
+CREATE TABLE TableParquet
+STORED AS PARQUET
+AS SELECT * FROM JsonTable
+</code>
+
+(see: [[https://groups.google.com/forum/#!topic/parquet-dev/pPQEAT6dl4U]])

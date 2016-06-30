@@ -1,0 +1,38 @@
+====== Good references ======
+
+  * Putty [[http://computing.bio.cam.ac.uk/VNC_PuTTY_HOWTO.pdf]]
+  * Swap file creation [[http://www.techknowjoe.com/article/create-swap-file-your-ec2-instance-storage-space]]
+  * Tmux [[http://robots.thoughtbot.com/a-tmux-crash-course]]
+
+====== CentOS ======
+  * [[wiki:linux_tips:selinux|SELinux]]
+  * [[wiki:linux_tips:iptable|IPTable]]
+
+====== Nice Distributions======
+[[https://viperr.org/]] : A very light distribution. It is based on Fedora. It removes the Gnome.
+
+
+====== Shortcuts======
+  * **alt+F1** ==> search program
+  * **windows + T** ==> open terminal
+  * **!!** ==> copy command from previous line
+  * **![number**] ==> copy command from line [number] from the history
+  * **alt+D** ==> tilling
+  * **ctrl+L** ==> clean screen
+  * **ctrl+R** ==> search in history
+
+
+====== Tools======
+  * **htop** ==> CPU/ Memory sumaries, processes
+  * **iotop** ==> writing summaries
+  * **vnstat** ==> summary of network IO
+  * **jps** ==> summary of processes
+
+
+====== Generals======
+  * **Linux VFS Layer** =  provides a uniform interface for the kernel to deal with various I/O requests and specifies a standard interface that each file system must support
+  * **Linux-HA** = project provides a high-availability (clustering) solution for Linux, FreeBSD, OpenBSD, Solaris and Mac OS X which promotes reliability, availability, and serviceability (RAS).[1]
+          * Linux HA is a stateless service
+                * **Heartbeat** =  a GPL-licensed portable cluster management program for high-availability clustering
+                * **Pacemaker** = Cluster Resource Manager
+                * **Corosync** = is an open source project derived from the OpenAIS project and licensed under the  new BSD License

@@ -1,0 +1,35 @@
+====== 2 Phase Process Discovery ======
+
+''**Process Mining: A Two-Step Approach using Transition Systems and Regions** by 
+Wil M.P. van der Aalst1, V. Rubin2,1, B.F. van Dongen1, E. Kindler2, and C.W. G¨unther1
+{{:wiki:data_mining:p359.pdf|}}''
+
+  * **Step 1:** learn the transition system (see creating a transition system)
+  * **Step 2:** build a petri net from the transition system by using regions
+
+The transition system and the petri net are **bisimilar**. (any movement in the petri net /transition system can be mimic by the transition system/petri net)
+
+**Limitations:**
+  * inability to discover particular process constructs
+
+For transition systems with 0 non-trivial regions, the petri net has one transition and no placess and it allows more transitions => apply a "forword closure" property
+
+**Note:** PromM is allready ensures the bisimilar property
+
+  * inability to balance the 4 forcess (fitness and simplicity /generalisation and precision)
+
+=> no special consideration for generalization/simplicity in the discovery phase 
+
+
+**Conclusions**
+
+  * this method is better than the alpha algorithm because it can discover complex process patterns
+  * this method provides insight into the essence of process discovery
+  * this method has overfitting problems
+  * this method is inable to leave out infrequent behaviour
+  * this method ha noise and incompletness problems 
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

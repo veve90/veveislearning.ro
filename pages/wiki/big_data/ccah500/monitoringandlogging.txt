@@ -1,0 +1,69 @@
+
+===== 6. Monitoring and Logging (15%) =====
+
+==== Understand the functions and features of Hadoop’s metric collection abilities==== 
+TODO
+==== Analyze the NameNode and JobTracker Web UIs==== 
+**HDFS	**
+  * Namenode	50070	dfs.http.address
+  * Datanodes	50075	dfs.datanode.http.address
+  * Secondarynamenode	50090	dfs.secondary.http.address
+  * Backup/Checkpoint node?	50105	dfs.backup.http.address
+
+**MR**
+  * Jobracker	50030	mapred.job.tracker.http.address
+  * Tasktrackers	50060	mapred.task.tracker.http.address
+
+
+**YARN**
+  * Resource­Manager Web UI 8088
+  * NodeManager 50060
+  * JobHistoryServer 19888
+
+==== Understand how to monitor cluster Daemons==== 
+Use Cloudera Manager and click on the service that you want to monitor and then on the daemon that you are interesed on.
+
+Afterwards you have the basic monitoring graphs.
+
+You can also add custom ones.
+==== Identify and monitor CPU usage on master nodes==== 
+  * Use Cloudera Manager or do it on shell.
+  * In shell, htop is your friend!
+==== Describe how to monitor swap and memory allocation on all nodes==== 
+  * **monitor swap:**
+       * shell: htop
+       * cloudera manager : cloudera manager --> Hosts
+  * **monitor memory allocation:** 
+      * HDFS:
+            * Java Heap Size of Namenode in Bytes
+            * Java Heap Size of Secondary namenode in Bytes
+            * Java Heap Size of DataNode in Bytes
+            * Maximum Memory Used for Caching
+            * Java Heap Size of JournalNode in Bytes
+            * Java Heap Size of NFS Gateway in Bytes
+            * ...
+      * YARN:
+            * ApplicationMaster Memory
+            * Map Task Memory
+            * Reduce Task Memory
+            * Client Java Heap Size in Bytes
+            * Java Heap Size of JobHistory Server in Bytes
+            * Java Heap Size of NodeManager in Bytes
+            * Container Memory
+            * Java Heap Size of ResourceManager in Bytes
+            * Container Memory Minimum/Increment/Maximum
+            * ....
+==== Identify how to view and manage Hadoop’s log files==== 
+  *  On the machine:
+<code> 
+/var/log/hadoop-<component>
+# if you want to search the logs from a specific application
+yarn application -list -appStates FINISHED | grep 'word count'
+yarn logs -applicationId application_1432913452651_0004
+</code>
+  * In Cloudera: either from the task either select all logs frome several services
+  * On Hadoop WebViews:Connect to the resource Manager (8088) and then go where your hart wants :D
+
+==== Interpret a log file==== 
+  * Is there any errors?
+  * If not ...

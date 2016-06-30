@@ -1,0 +1,56 @@
+===== Alpha Algorithm =====
+{{ :wiki:data_mining:alpha.png?nolink&300 |}}
+
+  * helps us transform the event logs into a petry net graph
+  * the first algorithm beeing able to discover concurency
+  * the alpha algorithm focuses only on the order of the activities
+  * an event log is transformed to a multised of traces
+  * a trace is a sequence of activity names
+
+**How does the alpha algorithm works?**
+{{ :wiki:data_mining:alpha1.png?nolink&300 |}}
+**Vocabulary:**
+
+  * direct succession: at least one case when we had a folowed by b in the event log
+  * causality: b is folowed by a but a is never folowed by b
+  * parallell: when we have a folowed by b and b folowed by a
+  * choice: e is never folowed by b and b is never folowed by e
+
+The alpha algorithm can be aplied with the ProM tool. PromM tutorials: http://www.promtools.org/doku.php?id=tutorial:start
+
+The alpha algorithm contains only 8 scary steps.
+{{ :wiki:data_mining:alpha2.png?nolink&300 |}}
+**Notations:**
+
+  * L= event log
+  * T = transitions
+  * t = one transition
+**Steps:**
+
+  * T(i) = the activities that happen at the first
+  * T(o) = the activities that happen at the end
+  * X(L) = find pairs of sets (A,B) where
+  * in the A set no element of A is folowing any A element
+  * in the B set no element of B is folowing any B element
+  * all elements of A are folowing all elements of B.
+  * Y(L) = X(L) with A and B maximal
+  * P(l) = add initial and final places to all sets from Y(L)
+
+**Limitations**
+
+  * implicit places: places that are not adding value/ redundant places, solved through pre-processing
+  * loops bbbb: when an activity is folowing itself, solved through preprocessing
+  * loops couples cb: when we are having a loop of couples cb , solved through pre-processing
+  * non local dependency: : cannot be solved
+  * multiple transitions having the same label: allow transition without no label
+  * OR-join: the resolution is made in the region-based miner algorithm
+  * deadlock:
+  * noise: traces that are infrequent, not specific to the alpha-algorithm, other models also have problems with it
+  * incompleteness: the flower model example, not specific to the alpha-algorithm, other models also have problems with it
+  * it cannot assume a notion of completness.
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

@@ -1,0 +1,242 @@
+====== Process Mining ======
+
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.**
+
+----
+
+  * The course general information: [[https://class.coursera.org/procmin-001/wiki/General_Information]]
+  * The course video lectures: [[https://class.coursera.org/procmin-001/lecture]]
+  * The process Mining book: [[https://class.coursera.org/procmin-001/wiki/The_Book]]
+  * Wil van der Aalst personal website: [[http://wwwis.win.tue.nl/~wvdaalst/]]
+  * Tu/e university: [[http://www.tue.nl/]]
+
+----
+
+  * Business Process Challenges: [[http://www.win.tue.nl/bpi/2014/challenge]]
+  * More on process mining: [[http://www.processmining.org/]]
+
+
+----
+
+  *  The notes are sometimes completed with information that came from other sources.
+  *  The notes contains images that are taken from the coursera video.
+
+
+
+----
+
+===== Process mining tools =====
+
+  * **disco:** process mining specifit tool, user frendly [[http://fluxicon.com/disco/]]
+  * **prom:** process mining specifit tool, powerfood, many functions [[http://www.promtools.org/doku.php]]
+  * **RapidMiner :** data minig tool
+  * **R:** data minig tool
+  * **Knime:** data minig tool
+  * **RapidProM:** [[http://www.rapidprom.org]]
+            * combination between ProM and RapidMiner
+            * do ProM analysis within the RapidMiner tool
+  * **Perceptive Process Mining**
+
+----
+
+===== Conduct a process mining project=====
+
+  * stage 0: plan and justify
+      * types of projects
+            * data-driven
+            * question driven
+            * goal driven
+      * plan project
+      * justify planned activities
+  * stage 1: extract and transform event data
+  * stage 2: create the control flow model and connect it to th event log (create a suitable control flow model)
+  * stage 3: create an overall model: data mining technics in order to integrate other attributes
+  * stage 4: operational support: recomendations, detection... (only reachable for lasagna processes)
+
+
+----
+===== Usefull ====
+  * when we have processes with bottlenecks
+  * when we have data with a time notion
+  * when we want to predict
+  * ...
+
+
+===== Vocabulary =====
+
+
+  ***play in:** create the model from the traces(examples)
+  ***play out:** from a model get the traces
+  ***replay:** play the given traces on the model in order to see if there are any deviations
+  ***process discovery:** 
+  ***enhancement**
+      * guards: define one type of path in a graph
+      *types: 
+             *extension: adding aditional perspective to the model using event data
+             *repair:
+  ***lasagna processes != spaghetti processes**
+             * lasagna process 
+                   * => structured, regular
+                   * => fitness at least of 0.8
+                   * => all techniques learn can be applied
+                         * => analyse root causes for deviations
+                         * => compare process mining
+                         * => operational support
+             * spaghetti process 
+                   * => ETL is more complex than in the lasagna processes
+                   * => try to make it simpler
+                           * focus on a subset of activities
+                           * focus on a subset of cases
+                           * make clusters
+                           * focus only on the most frequent activities
+                   * => Highlight important problems 
+
+
+----
+
+===== Process Mining Property =====
+{{ :wiki:data_mining:model_property.png?nolink&300 |}}
+
+
+====Bias in Process Mining====
+  * Alpha algorithm doesn't know to do OR-Joins
+  * K concurent activities: K! traces
+  * K optional activities sum(combinaison(k,i)*k!)
+  * Concurency can be discovered by the Alpha algorithm
+  * visualisation of discovered model is different than the representaiton of the bias
+  * most miners are using petri net or other representation for creating the model. Usually the BPMN is offered only afterwords (after a conversion)
+
+
+
+----
+
+=====Representations=====
+There are different representations that can /are used by process mining algorithms:
+
+  * [[wiki:data_mining:process_mining:petri_net|Petri Net]]
+  * [[wiki:data_mining:process_mining:transition_systems|Transition Systems]]
+  * [[wiki:data_mining:process_mining:wf|Workflow Nets (WF)]]
+  * [[wiki:data_mining:process_mining:causal_nets|Causal Nets]]
+  * [[wiki:data_mining:process_mining:dependency_graphs|Dependency Graphs]]
+  * [[wiki:data_mining:process_mining:bpmn|BPMN]]
+
+----
+
+=====Algorithms - process discovery=====
+  * [[wiki:data_mining:process_mining:petry_to_transition|Using regions to construct a petri net from a transition system]]
+  * [[wiki:data_mining:process_mining:alpha_algorithm|Alpha Algorithm]]
+  * [[wiki:data_mining:process_mining:2_phase|2 Phase Process discovery]]
+
+
+**
+Other algorithms:**
+
+
+  * inductive miner
+  * fuzzy miner
+  * [ProM has 600 plug in]
+  * [[wiki:data_mining:process_mining:alternatives|Other Alternatives]]
+
+
+
+----
+
+=====Conformance checking=====
+  * - the replay fitness is the most important property that is cheched.
+  * - evaluate the process discovery process
+  * - conformance to specification
+  * - auditing
+
+**Notes:**
+  * Parento front for considering 2 dimensions (fitness & precision or precision & simplicity)
+  * Positives & negative deviations (is the process wrong or is the log wrong?)
+
+
+**Approaches:**
+  * [[wiki:data_mining:process_mining:approach_causal_footprints|causal footprints]]
+  * [[wiki:data_mining:process_mining:approach_token_based_replay|token-based replay]]
+  * [[wiki:data_mining:process_mining:approach_token_alignement_based|alignement-based]]
+
+
+
+----
+
+===== Process Mining link to Data Mining =====
+
+The data mining techniques can classify our data in female/male etc. and help us know why a certain token did a certain movement in a or-split/and-split etc.
+
+  * **predictor variables =** all data that we have about our activities
+  * **predicted/response variable =** activities
+
+**note:** the more variables we have the more combinations we have and the more sparse will be our data
+{{ :wiki:data_mining:predictorpredictedvariable.png?nolink&300 |}}
+
+[[wiki:data_mining:process_mining:link_to_datamining|more...]]
+
+
+----
+
+===== Choose the right data to analyse =====
+
+
+  * finding and selectig the data. when we have an UML diagram of our data, when choosing what to anayse, answer the questions:
+            * what is the process model about?
+            * what are the activities?
+  * flatten event data => what are the instances?
+  * Data quality problems
+            * missing data
+            * incorrect data
+            * imprecise data
+            * irrelevant data
+
+**Examples**
+  * Examples of data quality problems
+            * timestamps of events are missing
+            * in reallity there are cases that are executed but not recorded in the log
+            * resources that executed an activity have not been recorded
+            * event attribute was not recorded
+            * 
+**Guidelines for logging**
+  * __terminology__
+          * reference = has a reference name and an identifier that refers to some object
+          * attribute = have a name and a value
+  * the reference names should have the same meaning for all peoples
+  * there should be a structured and managed collection of refence and attributes names
+  * references should be stable (should not be contect depended)
+  * attributes names should be as precise as possible
+  * uncertanty with the respect of occurence
+  * events should be partially ordered
+  * if possible store transactional information about the event (start, complete, abort,...)
+  * perform regular checks of the logging
+  * ensure comparability of event logs over time
+  * do not aggregate events in the event log
+  * do not remove events that have happened: do not remove students that failed...
+  * ensure privacy without loosing meaningful correlations
+
+
+
+
+----
+
+
+
+===== Use cases=====
+  * [[wiki:data_mining:process_mining:mining_bottlenecks|mining bottlenecks]]
+  * [[wiki:data_mining:process_mining:mining_social_networks|mining social networks]]
+  * [[wiki:data_mining:process_mining:organizational_mining|organizational mining]]
+  * [[wiki:data_mining:process_mining:operational_support|Operational Support: Detect Predict Recommand]]
+
+----
+===== Examples=====
+  * [[wiki:data_mining:process_mining:pm_dotted_chart|Dotted chart]]
+  * [[wiki:data_mining:process_mining:pm_alpha_algorithms|Alpha algorithms/Petri Net]]
+  * [[wiki:data_mining:process_mining:pm_inductive_miner|Inductive Miner/Petri Net]]
+  * [[wiki:data_mining:process_mining:pm_social_network|Social Network]]
+
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

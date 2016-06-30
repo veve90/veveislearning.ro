@@ -1,0 +1,20 @@
+ Example done by using cloudera quickstart.
+**Prerequisites:** test users (I'm having test1,test2, and cloudera user that are taking part of the developer group)
+
+  * Open a terminal
+  * Sign into hdfs user and create the folder:
+  <code>
+  su hdfs
+  hadoop fs -mkdir /folderName
+  </code>
+  * change the ownership of the folder
+  <code>
+  hadoop fs -chown -R cloudera:developer /folderName
+  hadoop fs -chgrp -R developer /folderName
+  </code>
+  * sign in into the test1 user and create a folder
+  * sign in into the test2 user and acces the folder created by test1 and create a new folder insight
+  * sign in with a user that is not tking part of the developer group
+  
+  
+Thant was all!

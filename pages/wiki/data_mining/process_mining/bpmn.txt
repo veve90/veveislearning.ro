@@ -1,0 +1,11 @@
+===== BPMN =====
+  * created in 2004
+  * similar to UML
+  * tipically only a small subset is being considered
+{{ :wiki:data_mining:bpmn.png?nolink |}} 
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

@@ -1,0 +1,293 @@
+__Here I will put my personal notes from the coursera course **Text Retrieval and Search Engines** that is made by **ChengXiang Zhai** and that started in Mars 2015.__ 
+
+
+  * https://class.coursera.org/textretrieval-001
+
+
+__Reading:__
+  * Chris Manning and Hinrich Schütze, Foundations of Statistical Natural Language Processing, MIT Press.Cambridge, MA: May 1999.
+  * N. J. Belkin and W. B. Croft. 1992. Information filtering and information retrieval: two sides of the same coin?. Commun. ACM 35, 12 (Dec. 1992), 29-38.
+  * S.E. Robertson, The probability ranking principle in IR. Journal of Documentation 33, 294-304, 1977
+  * **C. J. van Rijsbergen, Information Retrieval, 2nd Edition, Butterworth-Heinemann, Newton, MA, USA, 1979**
+  * A must-read for anyone doing research in information retrieval. Chapter 6 has an in-depth discussion of PRP
+  * Detailed discussion and comparison of state of the art models Hui Fang, Tao Tao, and Chengxiang Zhai. 2011. Diagnostic
+  * Evaluation of Information Retrieval Models. ACM Trans. Inf.Syst. 29, 2, Article 7 (April 2011)
+  * Broad review of different retrieval models
+  * ChengXiang Zhai, Statistical Language Models for Information Retrieval , Morgan & Claypool Publishers, 2008.(Chapter 2) 
+  * A. Singhal, C. Buckley, and M. Mitra. Pivoted documentlength normalization. In Proceedings of ACM SIGIR 1996.http://singhal.info/pivoted-dln.pdf
+  * S. E. Robertson , S. Walker, Some simple effectiveapproximations to the 2-Poisson model for probabilistic weighted retrieval, Proceedings of ACM SIGIR 1994.http://staff.city.ac.uk/~sb317/papers/robertson_walker_sigir 94.pdf
+  * Ian H. Witten, Alistair Moffat, Timothy C. Bell:Managing Gigabytes: Compressing and Indexing Documents and Images, Second Edition. Morgan Kaufmann, 1999.
+  * Stefan Büttcher, Charles L. A. Clarke, Gordon V. Cormack:Information Retrieval - Implementing and Evaluating Search Engines. MIT Press, 2010.
+
+
+====== Natural Language Content Analysis======
+{{ :wiki:data_mining:text_mining:text_mining.png?nolink |}}
+
+
+{{ :wiki:data_mining:text_mining:nlp.png?nolink |}}
+
+{{ :wiki:data_mining:text_mining:thestateofart.png?nolink |}}
+
+**Dificulties:**
+  * The same word can have multiple meanings
+  * syntactic ambiguity: "a man saw a boy with a telescope" (who had a telescope?)
+
+
+  * The **bag of words representation** => the order is lost
+          * some taks don't require the order 
+  * Knowledge graps (google)
+
+====== Text Access ======
+  * how to transform row big text data into small data?
+
+  * __Pull Mode (search engines)__
+            * Users take initiative
+            * Ad hoc information need
+
+        * Querying
+            * User enters a (keyword) query
+            * System returns relevant documents
+            * Works well when the user knows what keywords to use
+        * Browsing
+            * User navigates into relevant information by following a path enabled by the structures on the documents
+            * Works well when the user wants to explore information, doesn’t know what keywords to use, or can’t conveniently enter a query 
+
+
+
+  * __Push Mode (recommender systems)__
+            * Systems take initiative
+            * Stable information need or system has good knowledge about a user’s need
+
+====== Text retrieval problem ======
+
+
+  * TR: text retrieval
+  * IR: information retrival
+  * A user gives a query to express the information need, then the system returns relevant documents
+
+Information
+  * Unstructured/free text vs. structured data
+  * Ambiguous vs. well-defined semantics
+Query
+  * Ambiguous vs. well-defined semantics
+  * Incomplete vs. complete specification
+Answers
+  * Relevant documents vs. matched records
+
+TR is an empirically defined problem
+  * Can’t mathematically prove one method is better than another
+  * Must rely on empirical evaluation involving users!
+
+===== Vocabulary: =====
+V={w1, w2, …, wN} of language
+
+  * Query: q = q1,…,qm, where qi  V
+  * Document: di = di1,…,dimi, where dij  V
+  * Collection: C= {d1, …, dM}
+  * Set of relevant documents: R(q)  C
+          * Generally unknown and user-dependent
+          * Query is a “hint” on which doc is in R(q)
+  * Task = compute R’(q), an approximation of R(q)
+
+
+===== Strategy 1: Document selection =====
+
+  * R’(q)={dC|f(d,q)=1}, where f(d,q) {0,1} is an indicator function or binary classifier
+  * System must decide if a doc is relevant or not (absolute relevance)
+
+===== Strategy 2: Document ranking =====
+  * R’(q) = {dC|f(d,q)>}, where f(d,q)  is a relevance measure function;  is a cutoff determined by the user
+  * System only needs to decide if one doc is more likely relevant than another (relative relevance)
+
+
+===== The classifier is unlikely accurate =====
+
+  * “Over-constrained” query  no relevant documents to return
+  * “Under-constrained” query  over delivery
+
+Hard to find the right position between these two extremes
+
+
+====== TR methods ======
+===== Vocabulary =====
+
+  * Query: q = q1,…,qm, where qi  V
+  * Document: d = d1,…,dn, where di  V
+  * Ranking function: f(q, d) 
+  * A good ranking function should rank relevant documents on top of non-relevant ones
+  * Key challenge: how to measure the likelihood that document d is relevant to query q
+  * Retrieval model = formalization of relevance (give a computational definition of relevance) 
+
+===== Methods of ranking =====
+**Similarity-based models: f(q,d) = similarity(q,d)**
+  * Vector space model
+
+**Probabilistic models: f(d,q) = p(R=1|d,q), where R {0,1}**
+  * Classic probabilistic model
+  * Language model
+  * Divergence-from-randomness model
+
+**Probabilistic inference model: f(q,d) = p(dq)**
+
+**Axiomatic model: f(q,d) must satisfy a set of constraints**
+
+
+**When optimized, the following models tend to perform equally well [Fang et al. 11]:**
+  * **Pivoted length normalization**
+  * **__BM25__**
+  * **Query likelihood**
+
+
+State of the art ranking functions tend to rely on
+  * Bag of words representation
+  * Term Frequency (TF) and Document Frequency (DF) of words
+  * Document length
+
+**Vector Space Model (VSM)**
+  * Represent a doc/query by a term vector
+        * Term: basic concept, e.g., word or phrase
+        * Each term defines one dimension
+        * N terms define an N-dimensional space
+        * Query vector: q=(x1, …xN), xi is query term weight
+        * Doc vector: d=(y1, …yN), yj is doc term weight
+  *** relevance(q,d)  similarity(q,d) =f(q,d)**
+
+
+**bit vector**: we are representing only the presence and absence of each word.
+
+===== Example of a definition of similarity  =====
+
+
+{{ :wiki:data_mining:text_mining:similarity_calculatiopn.png?nolink |}}
+
+===== How to eliminate stopwords (without any list)? =====
+
+{{ :wiki:data_mining:text_mining:penalizefrequentel.png?nolink |}}
+
+===== Ranking with TF-IDF =====
+{{ :wiki:data_mining:text_mining:rankingtfidf.png?nolink |}}
+
+With this definition the we are having a linear transformation function between the number of occurences of one word and it's weight. Normally, we would do something like:
+
+{{ :wiki:data_mining:text_mining:transformationfuncxton.png?nolink |}}
+
+
+{{ :wiki:data_mining:text_mining:rankingbm25.png?nolink |}}
+
+
+===== Document length Normalization in the VSM =====
+==== Pivoted Length Normalization ====
+
+{{ :wiki:data_mining:text_mining:pivotedlengthnormalization.png?nolink |}}
+
+
+==== VSM State of Art ====
+
+{{ :wiki:data_mining:vsmstateofart.png?nolink |}}
+
+===== Implementation of Text Retrieval (TR) =====
+{{ :wiki:data_mining:text_mining:tr.png?nolink |}}
+
+==== Tokenization ====
+  * __Tokenization:__ Normalize lexical units: Words with similar meanings should be mapped to the same indexing term
+  * __Stemming:__ Mapping all inflectional forms of words to the same root form, e.g
+  * 
+==== Indexing ====
+  * __Indexing__ = Convert documents to data structures that enable fast search (precomputing as much as we can)
+  * __Inverted index__ is the dominating indexing method for supporting basic search algorithms 
+
+
+{{ :wiki:data_mining:text_mining:invertedindexexample.png?nolink |}}
+
+  - we need the frequency of the term, the number of documents that match the term and the other basic statistics in order to be able to compute the IDF.
+  - for the term "news" the IDF is one in each document
+  - for the term "presential" the IDF 
+
+
+**Note:** __IDF = Inverse document frequency__ = "The inverse document frequency is a measure of how much information the word provides, that is, whether the term is common or rare across all documents. It is the logarithmically scaled fraction of the documents that contain the word, obtained by dividing the total number of documents by the number of documents containing the term, and then taking the logarithm of that quotient."
+
+{{ :wiki:data_mining:text_mining:idf.png?nolink |}}
+
+=== Multi-term Boolean query?===
+  * – Must match term “A” AND term “B”
+  * – Must match term “A” OR term “B”
+=== Multi-term keyword query===
+  * - Similar to disjunctive Boolean query (“A” OR “B”)
+  * – Aggregate term weights 
+{{ :wiki:data_mining:text_mining:zipf.png?nolink |}}
+=== Data Structures for Inverted Index ===
+  * Dictionary: modest size 
+        * - Needs fast random access
+        * – Preferred to be in memory
+        * – Hash table, B-tree, trie, …**
+  * Postings: huge
+        * – Sequential access is expected
+        * – Can stay on disk
+        * – May contain docID, term freq., term pos, etc
+        * – Compression is desirable
+
+
+===== Inverted index implementation =====
+  * The main difficulty is to build a huge index with limited memory
+  * Memory-based methods: not usable for large collections 
+
+
+STEPS:
+  * - Step 1: Collect local (termID, docID, freq) tuples
+  * – Step 2: Sort local tuples (to make “runs”)
+  * – Step 3: Pair-wise merge runs
+  * – Step 4: Output inverted file
+
+In general, leverage skewed distribution of values and use variable-length encoding
+
+Integer Compression Methods
+  * Unary
+  * -code (gamma-coding): use unary coding for a transformed value of the number 
+  * -code (): 
+
+
+===== Fast search =====
+A general scoring function
+{{ :wiki:data_mining:text_mining:generalfunctionscoring.png?nolink |}}
+  * fd are pre-computed
+  * h should be incrementally computed
+  * Maintain a score accumulator for each d to compute h
+  * 
+===== Some Text Retrieval Toolkits =====
+
+  * Lucene: http://lucene.apache.org/
+  * Lemur/Indri: http://www.lemurproject.org/
+  * Terrier: http://terrier.org/
+  * MeTA: http://meta-toolkit.github.io/meta/
+  * More can be found at http://timan.cs.uiuc.edu/resources
+
+====== Evaluation of TR systems ======
+**Why do evaluate?**
+  * Reason 1: Assess the actual utility of a TR system
+  * Reason 2: Compare different systems and methods
+
+
+**What to Measure?** 
+  * Effectiveness/Accuracy: how accurate are the search results? 
+  * Efficiency: how quickly can a user get the results? How much computing resources are needed to answer a query? 
+  * Usability: How useful is the system for real user tasks?
+
+The Cranfield Evaluation Methodology ==> Idea: Build reusable test collections & define measures 
+
+====== Evaluation of TR systems ======
+  * Recall = the fraction of the documents that are relevant to the query that are successfully retrieved.
+  * Precision =the fraction of retrieved documents that are relevant to the find
+
+{{ :wiki:data_mining:text_mining:recallprecision.png?nolink |}}
+
+  * there is a trade-off between precision and recall ==> F-Measure
+
+{{ :wiki:data_mining:text_mining:fmeasure.png?nolink |}}
+
+  * PR courve
+
+{{ :wiki:data_mining:text_mining:prcourve.png?nolink |}}
+  * the average precision = the area under the curve 
+
+======= Probabilistic Retrival Models =======
+

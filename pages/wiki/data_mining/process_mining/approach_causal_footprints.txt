@@ -1,0 +1,20 @@
+==== Causal footprints ====
+  * - matrice that is showing the link between all element sin a trace
+  * - the element is showing if a is folowing by b etc...
+
+
+{{ :wiki:data_mining:footprint.png?nolink&300 |}}
+
+  * footprint-conformance = 1 => perfect match
+  * footprint-conformance = 0 => worst match
+  * the footprint matrice can be computed by starting from the logs or from the model => the differences can be analyzed and diagnosed => the conformance checking can be done by computing the propability of the differences
+
+**limitations:**
+  * frequences are not used
+  * behaviour is only considered indirectly
+  * aims to capture fitness/precision and generalization in a single metric
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

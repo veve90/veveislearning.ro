@@ -1,0 +1,28 @@
+====== Mining Social Networks ======
+  * **graph representation**
+       * arcs = relationships
+       * centrality
+               * degree centrality
+               * closeness centrality
+               * betweeness centrality
+       *  while creating the graph the **control function** have to be taken into consideration
+       * can be analysed in many ways. 
+
+
+  * **resource activity matrix** (resource X activity)
+       * shows who is doing what 
+       * the columns 
+               * the sum is equal to number of cases is the log where the resource did the activity divided by (number of total cases divided by number of activities)
+               * the value is equal to the percentage of the sum where the resource did the activity
+
+
+**Prom can handle this kind of representations**
+  * there are different algorithms for different distance notions
+  * sometimes we can replace activity names by resources names
+
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

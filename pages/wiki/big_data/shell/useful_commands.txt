@@ -1,0 +1,20 @@
+====== Useful Monitoring Commands ======
+
+<code>
+ # get the disk usage
+ hadoop dfsadmin -report
+
+ # files and sizes on path
+ hdfs dfs -du -h /
+
+
+ # remove unnecessary files and folders
+ hdfs dfs -rm -r /path_files
+
+
+ # check file on disk
+  hdfs dfs -cat /path_to_file | grep 'search_word'  > /tmp/search_word
+  
+  
+  
+</code>

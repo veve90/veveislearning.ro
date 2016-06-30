@@ -1,0 +1,39 @@
+Paris:
+  * Eiffel Tower, 1887
+  * Notre Dame de Paris, 1163
+  * Arc de Triomphe,  1836
+  * Palace of Versailles, 1682
+  * Sacré-Cœur, 1914
+  * Champs-Élysées
+  * Louvre Pyramid
+  * Louvre Palace
+
+Loire Valley: The Loire Valley stretches 175 miles along the Loire River
+  * Château de Chambord
+  * Chateau de Vitre
+  * Chateau de Fougeres
+  * Chateau d'Angers
+  * Chateau Gaillard
+  * Chateau de Vincennes
+  * Château du Haut-Koenigsbourg
+  * Chateau de Loches
+  * Chateau de Saumur
+  * Palais des Papes
+  * Cite de Carcassonne
+  * ...
+Ski / VTT DH:
+  * Courchevel
+  * Les Deux Alpes
+  * La Plagne
+  * ...
+
+
+Divertisment:
+  * Cannes Film Festival
+
+
+Isolated:
+  * Puy du Fou
+  * Mont Saint-Michel
+  * Arles: Once the home of master artist, Vincent van Gogh
+  * 

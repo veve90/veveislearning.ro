@@ -1,0 +1,41 @@
+====== Data Mining ======
+**R**
+  * [[wiki:data_mining:clustering_r|Clustering in R]]
+  * [[wiki:data_mining:packages|The packages that I use]]
+  * [[wiki:data_mining:needed_commands_when_started|Usefull commands when started]]
+
+**Coursera courses[+ resume]**
+  * [[wiki:data_mining:process_mining|Process Mining]]. 
+  * https://class.coursera.org/procmin-001
+  * https://class.coursera.org/bigdata-edu-001
+  * Data mining specialisation
+       * [[wiki:data_mining:pattern_discovery_data_mining|Pattern Discovery in Data Mining]]
+       * [[wiki:data_mining:text_retrival_and_search_engines|Text Retrieval and Search Engines]]
+**Competitions**
+  * Kaggle: [[https://www.kaggle.com/competitions]]
+
+
+**Open Data**
+  * [[http://www.data.gov/]]
+  * [[http://open-data.europa.eu/en/data/]]
+  * [[https://github.com/thoughtfulbloke/shopping]]
+  * [[https://github.com/mmulchandani/uiuc_pm/blob/master/t5000.txt]]
+===== Nice articles: =====
+
+
+
+
+==== Recommender systems ====
+  * IBM explications: [[http://www.ibm.com/developerworks/library/os-recommender1/]] 
+  * A Survey of Collaborative Filtering Techniques: [[http://www.hindawi.com/journals/aai/2009/421425/]]
+  * Item-Based Collaborative Filtering Recommendation Algorithms [[http://files.grouplens.org/papers/www10_sarwar.pdf]]
+  * using RapidMiner: [[http://ashokharnal.wordpress.com/2014/04/28/recommender-system-using-rapidminer/]]
+  * using Apache Mahout: [[https://mahout.apache.org/users/recommender/recommender-documentation.html]]
+  * using Apache Mahout: [[http://fr.slideshare.net/Cataldo/tutoria-mahout-recommendation]]
+  * using Apache Mahout: [[http://www.philippeadjiman.com/blog/tag/recommendation-engine/]]
+  * at Spotify: [[http://fr.slideshare.net/erikbern/collaborative-filtering-at-spotify-16182818]]
+  * using Solr: [[http://fr.slideshare.net/treygrainger/building-a-real-time-solrpowered-recommendation-engine]]
+  * A Comparative Study of Collaborative Filtering Algorithms[[http://arxiv.org/pdf/1205.3193.pdf]]
+  * Marketing: [[http://fr.slideshare.net/McK_CMSOForum/big-data-and-advanced-analytics]]
+  * at Wakoopa: http://fr.slideshare.net/blueace/how-to-build-a-recommender-system-presentation
+  * Opera team at netflix: [[http://www.commendo.at/UserFiles/commendo/File/KDDCup2012-Track2.pdf]]

@@ -1,0 +1,8 @@
+====== CCAH500 ======
+
+  * [[wiki:big_data:ccah500:HDFS |1. HDFS (17%)]]
+  * [[wiki:big_data:ccah500:YARN |2. YARN (17%)]]
+  * [[wiki:big_data:ccah500:Planning|3. Planning (16%)]]
+  * [[wiki:big_data:ccah500:Administration|4. Admin (25%)]]
+  * [[wiki:big_data:ccah500:ResourceManagement|5. ResourceManagement (10%)]]
+  * [[wiki:big_data:ccah500:MonitoringAndLogging|6. Monitoring and Logging (15%)]]

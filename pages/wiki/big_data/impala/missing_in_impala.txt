@@ -1,0 +1,7 @@
+====== What's missing in Impala? ======
+
+Impala is a product made by Cloudera. However i's still a young product.
+Here is what I think is still missing:
+
+  * support for ORC files
+  * complex data support

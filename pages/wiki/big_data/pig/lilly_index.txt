@@ -1,0 +1,68 @@
+======      Make your first lilly index for a use in Cloudera Search ======
+
+**Sources:**
+        * [[http://www.cloudera.com/content/cloudera/en/documentation/cloudera-search/v1-latest/PDF/Cloudera-Search-User-Guide.pdf]]
+        * [[https://github.com/NGDATA/hbase-indexer/tree/master/hbase-indexer-mr/src/test/resources]]
+        * [[http://lilyproject.org/books/lily_enterprise_book--20120816-072019/publications/pdf/output/book.pdf]]
+        * [[http://kitesdk.org/docs/1.0.0/morphlines/]]
+        * [[http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/search_use_hbase_indexer_service.html]]
+        * [[http://cloudera.github.io/cdk/docs/0.4.0/cdk-morphlines/]]
+        * [[http://www.cloudera.com/content/cloudera/en/documentation/cloudera-search/v1-latest/PDF/Cloudera-Search-User-Guide.pdf]]
+        * [[http://www.solrtutorial.com/schema-xml.html]]
+        * [[http://solr.pl/en/2010/08/16/what-is-schema-xml/]]
+
+
+
+**Requirements:**
+  * A Cloudera cluster with the folowing services installed
+          * HDFS
+          * HBase
+          * Solr
+          * Yarn
+          * Hue
+
+**The general idea:**
+Create a HBase table that will be acessible in the Cloudera search in order to be able to make dashboards on it.
+In order to be able to do this we have to:
+  - create a HBase table
+  - say to Solr what table to access and what are the indexed fields of this table => schema.xml
+  - make the indexes 
+        - => configure the lily index
+        - => use a map reduce job to create the solr indexes
+
+=====Step 0: Cluster configuration =====
+  * Enabling cluster-wide HBase replication => Cloudera Manager -->HBase Service --> Configuration --> hbase.replication
+===== Step 1: Make a Hbase table=====
+**Option 1:** login into one machine in ssh and type the folowings:
+<code>
+$ hbase shell
+hbase(main):002:0> create 'record', {NAME => 'data'}
+hbase(main):002:0> put 'record', 'row1', 'data', 'value'
+hbase(main):001:0> put 'record', 'row2', 'data', 'value2'
+</code>
+
+**Option 2:**
+  * Open the Hue interface <ip>:8888 and then go into Data Browser-> HBase -> New Table -> Fill in the Column family and the names.
+  * Then click on the table name -> new row -> add a new row.
+
+===== Step 2: SolrCloud =====
+SolrCloud  is Solr with indexes distributed over multiple machines. SolrCloud needs to know what to index => create a schema.xml
+
+
+
+===== Step 3:  Lily HBase Indexer =====
+Inform lily about the needed indexes on the corresponding columns => 
+  - use the command hbase-indexer
+  - create an xml for the lilly index => morphline-hbase-mapper.xml
+
+
+===== Step 4:  The Lily HBase Indexer needs a morpholine configuration file =====
+  * The extractHBaseCells morphline command extracts cells from an HBase Result and transforms the values into a SolrInputDocument.  The command consists of an array of zero or more mapping specifications.
+  * The inputColumn parameter, which specifies the data to be used from HBase for populating a field in Solr. It takes the form of a column family name and qualifier, separated by a colon. The qualifier portion can end in an asterisk, which is interpreted as a wildcard. In this case, all matching column-family and qualifier expressions are used. The following are examples of valid inputColumn values:
+        * – mycolumnfamily:myqualifier
+        * – mycolumnfamily:my*
+        * – mycolumnfamily:*
+
+
+===== Step 5:  Create the indexes => Run the HBaseMapReduceIndexerTool =====
+  * Unordered List Item

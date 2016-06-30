@@ -1,0 +1,498 @@
+====== HDFS (17%) ======
+
+===== HDFS Daemons ===== 
+  * **NameNode:** manages the filesystem metadadata and persists all file changes metadata into 2 files:
+        * **edits:**  changes made to the metadatasystem since the last fsimage was created (since the last checkpoint). There is one edit file per transaction (created)
+        * **fsimage:** an image of the metadata system
+
+The dataNode sends lists of blocks to the Namenode in order to inform him what blocks does it have. The namenode will save this information in memory.
+
+Clients are connecting to the NN in order to perform filesystem operations. 
+
+The Namenode filesystem puts up all metadata information in memory in order to be able to do fast lookup.
+
+  * **Secondary NameNode:** makes a merge of the edits file and the fsimage file for the NameNode.
+  *** DataNode:** stores and retrieves blocks of data.It has to send hartbeats to the Namenode ( list of blocks).
+<code>
+# format the new filesystem 
+# create the first fsimage, edits 
+# to be run on the namenode
+bin/hadoop namenode -format
+
+# start all hdfs daemons 
+# to be run on the namenode
+bin/start-dfs.sh
+</code>
+
+
+=====  Describe the normal operation of an Apache Hadoop cluster, both in data storage and in data processing. ===== 
+
+  * Data storage is assured by the HDFS service wich is a distributed filesystem. 
+  * Data processing is historicaly done by MapRecuce, now by YARN. 
+
+Each time you have a script in Hive/ Pig, it is transformed in MapReduce code.
+
+
+
+==== Data Processing ====
+sources: 
+  * http://blog.cloudera.com/blog/2015/06/architectural-patterns-for-near-real-time-data-processing-with-apache-hadoop/
+
+
+In Map Reduce Jobs:
+  * Job Resources and metadata are shared in HDFS for the Application Master to access
+  * User code runs on the Node Managers
+
+
+=== Data Import: ===
+==  Flume: ==
+ 
+          * open source, reliable, scalable, typically used for log file ingestion
+          * each agent has a source, and a sink (and a channel)
+          * scales horizonatlly
+          * install:
+<code>
+ sudo yum install flume-ng
+ sudo yum install flume-ng-agent
+ vim /etc/flume-ng/conf/flume-conf.properties
+ sudo service flume-ng-agent start
+flume-ng --name <agent_name> # start multiple agents on the same host
+</code>
+
+Example of config:
+<code>
+my_agent_name.sources = my_source_name
+my_agent_name.channels = ch1
+my_agent_name.sinks = my_sink_name my_sink_name2
+my_agent_name.sinkgroups = sg1
+my_agent_name.sources.my_source_name.type = exec
+my_agent_name.sources.my_source_name.command = tail -F /tmp/access_log
+my_agent_name.sources.my_source_name.channels = ch1
+my_agent_name.channels.ch1.type = memory
+my_agent_name.channels.ch1.capacity = 300
+my_agent_name.sinks.my_sink_name.type = avro
+my_agent_name.sinks.my_sink_name.hostname = localhost
+my_agent_name.sinks.my_sink_name.port = 6000
+my_agent_name.sinks.my_sink_name.batch-size = 1
+</code>
+
+==  Sqoop: ==
+  * read data from relational DB
+  * supports import/export from/to Hive, Avro files, HBase files, Accumulo tables
+  * can be run as a service
+
+
+<code>
+# list tables
+sqoop list-databases --username veve -P \
+--connect jdbc:mysql://dbserver.example.com/
+
+# import tables in the my_database_name database
+sqoop import-all-tables --username veve --password derf \
+--connect jdbc:mysql://dbserver.example.com/my_database_name
+
+</code>
+
+Sqoop:
+  * connecteurs JDBC installed on clients and server
+  * DB connectivity required for every client
+  * every request requires database authentification
+Sqoop2:
+  * connecteurs JDBC installed on  server
+  * DB connectivity required for the server Sqoop2
+  * the authentification details are saved on the server side configurations
+==  WebHDFS: ==
+  * provides a REST interface to HDFS
+  * does not support HDFS HA deployments
+  * read/Write to HDFS
+  * the clients have to have access to all datanodes
+==  HttpFS: ==
+  * provides a REST interface to HDFS
+  * supports HDFS HA deployments
+  * the clients have to have to the HttpFS server
+===== Why Apache Hadoop? =====
+  * big computers cost a lot (monolitic computing) ⇒ use a lot of smaller computers (distributed computing)
+  * data access is one of the bottlenecks of processing data on a big computer ⇒ since here we  have  it on multiple computers (replication), we can read faster large blocks of sequential data
+  * handle failure ⇒ on a big computer a failure is a failure , here we can handle several workers failure, and a namenode failure
+
+
+===== The major goals of HDFS Design =====
+  * replicates data accross multiple nodes. The replication factor is defined by a configuraiton. This will help       
+      * The processing speed and the read speed. 
+      * Fault tolerance
+  * the block size is significantly larger than the block size of ext3 or any other classical filesystem. By default is 64 MB and there are some that increase it to 256 MB, or event 1GB. This will :
+        * The processing speed and the read speed.
+        * Increase the occupied size on your disk if you have small files ==> see small files problem
+  * Master-slave architecture
+  * 2 security levels
+  * “Moving Computation is Cheaper than Moving Data”
+  * write-once-read-many access model
+  * Large Data Sets Not tens of million of small files
+
+
+
+=====  HDFS Federation =====
+
+**What is it?**
+The fact that there is the SNN in order to take some tasks from the NN. 
+Is different than having multipe clusters because each DN can have blocks from different NN (each DN has a block pool for each Namespace).
+
+http://fr.slideshare.net/ydn/hug-march-hdfs-federation 
+
+**Why shoud I use it?**
+  * It works around the memory limitation of the NN.
+  * Allow us to use namespace partitioning to control the availability of different slices of the filesystem.
+
+**Important Note:**
+  * HA and Federation are ortogonal feature. We can enable them independently.
+
+==== Scenario 1: Performance ====
+The Namenode process the entire metadata into memory. So there is a limitation between the number of objects that we can store and the namenode memory. 
+  * the startup can be slowed down if there are a lot of items to put up in memory
+  * debugging with a single larger JVM is harder than with 2 smaller JVMs
+
+==== Scenario 2: Application isolation====
+When we have a single namenode the experimental applications can affect the production ones if we work on the same cluster.
+
+==== Scenario 3: Failure ====
+If the Namenode Federation is not used the failure of the namenode will bring down the entire cluster.
+
+==== Scenario 4: Big Big Cluster====
+A namenode with 50GB Of memory and 200 million objects can support 400 DataNodes, 12 PB of storage. So in order to support ultiple Datanodes, we could get a bigger machine or use the HDFS Federation.
+
+
+===== HDFS HA-Quorum cluster =====
+**WHY use HDFS HA? **
+  * The long time recovery if the NN fails
+        * start a new primary NN with one of the filesystem metadata replicas 
+              * The NN has to load the namespace image into memory
+              * The NN has to replay its edit logs
+              * The NN has to receive enough block reports from the DN to leave safe mode
+        * configure DN and clients to use this new NN
+  * The NN is a SPOF if HDFS HA is not used
+
+**Daemons **
+  * 2 NN: at any point one NN is in active state and the other is in standby state. The active NN is responding to all client requests and the standby NN is maintaining enough state to provide fast fail over. The two NN are reading the edit logs from a high available shared storage the QJM (Quorum Journal Manager)
+  * At least 3 JN: Journal Node -> We have at least 3 in order to have a majority of JN. The 2 NN communicate to the JN . The group of JN is called QJM (Quorum Journal Manager)
+  * SN : in the HA cluster the SN is still doing the checkpoints, __but there is no need__. This is kept in order to be able to change the configuration from a non HA cluster to a HA cluster without interruption. However, you can reuse the machine of the Secondary Namenode for the Standby Namenode.
+
+
+**Configurations**
+  * Manual or automatic failover. In the automatic failover there is an additional process: failover controller that monitors the health of the process and coordinates state transitions.
+  * The clients must be configured to handle NN failover
+
+
+===== HDFS security  =====
+**source:** Hadoop the definitive Guide by Tom White
+
+==== Authorization mechanism ====
+
+File permissions system in HDFS prevents unauthorized users to delete data
+
+==== Kerberos ====
+Kerberos: "says that the user us who says she is". Steps done by Kerberos:
+  * **Authentification (not user-level action):** The client asks for a timestamped ticket (TGT: Ticket-Granting Ticket) to the Kerberos Authentification Server (AS). The TGT normally last for 10 hours. The Kerberos AS is retourning the valid ticket encypted with the user password (the password never left the machine).
+  * **Authorisation (not user-level action):** The clients uses the received TGT in order to ask for a service to the Ticket-Granting Server (TGS).  The TGS also has a validity timestamp.
+  * **Service request** (user-level action demanding a password: kinit command): The client uses the service ticket to authentificate itself to the server(namenode, resource manager) that is providing the service.
+
+**Note:**
+  * If you don't want to be prompted for a password ==> creat a keytab file (ktutil command)
+  * principal: 
+        * is the name used in kerberos for user
+        * is composed of 3 components: 
+              * the primary: the user component
+              * the instance: optional; used to create users
+              * the realm: the group of objects
+  * KDC (Key Distribution Center):
+        * the authentification server is responsible for authentificating a client and providing the TGT and the TGS
+
+**Enable Kerberos steps:**
+  * install kerberos
+  * run a KDC (hadoop does not come with one)
+  * hadoop.security.authentification ==> kerberos
+  * hadoop.security.author ==> true
+  * dfs.block.access.tocke.enable
+
+
+**Delegation Tokens**: 
+  * Hadoop uses delegation in order not to over load the KDC with unnecessary tocken requests. 
+  * The delegation tocken is generated by the server (namenode) and is used as a shared secret between the client and the server. 
+  * On the first call the client has no tocken so it uses Kerberos to authentificate. After the authentification succedes, the client gets a delegation tocken from the namenode.
+  * HDFS uses a special delegation tocken : __the block access tocken__ that is also generated by the namenode.
+
+
+**Other security Enhancements:**
+  * each time you submit a job, the job is sumitted with your user. Your job cannot kill the task of another user.
+  * there is a private cache for each user
+  * if there are some configurations done, users can view only theirs jobs
+  * the suffle is secure, preventing user A to ask for user B map outputs
+  * it is posible to configure it so that you cannot add a malicious datanode (datanode will authentificate with the namenode with kerberos)
+        * dfs.datanode.keytab file
+        * dfs.datanode.kerberos.principal
+        * security.datanode.protocol.acl
+  * you can use custom ports for datanode connection
+  * a task can communicate only with its parent application master
+  * RPC data transfer can be encrypted
+
+===== Data serialization =====
+Definition: '' serialization is the process of translating data structures or object state into a format that can be stored''
+
+  * Source: https://en.wikipedia.org/wiki/Serialization
+  * Comparison: https://en.wikipedia.org/wiki/Comparison_of_data_serialization_formats 
+
+
+**Summary:**
+  *** Standard File Formats:**
+        * Text data: mostly used for raw data
+        * Structured text data: JSON, XML ==> usually we use an avro container
+        * Binary data: images ==> we usually use a container format like SequenceFile 
+  * **File-based data structures:** Sequence File
+  * **Serialization Formats**
+        * Thrift: uses an  Interface Definition Language , not splittable, no compression
+        * Protocol Buffers: uses an  Interface Definition Language, not splittable, no compression
+        * Avro: data is described through a language-independent schema, compressable, splittable, schema evolution, Avro files are self-documenting
+  * **Columnar Formats**
+        * RCFile: created for efficient processing for MapReduce applications
+        * ORC: Hive only, better than RCFile, only required data is brought back in queries, splittable, compressable
+        * Parquet: general-purpose storage format for Hadoop,  splittable, compressable, support complex nested data structures, Parquet files are self-documenting, supports being able to read and write to with Avro and Thrift APIs
+
+
+
+
+
+==== Text Data====
+When you want to store data into it's raw form.
+
+====Structured text data (JSON, XML)====
+  * Use a container format such as Avro. If you change the data format into Avro you  will provide a compact and efficient way to store and process the data.
+  * Use a library for processing XML or JSON files and save into Text Data.
+
+====Binary data (Images)====
+  * usually we use sequence files. However if the file is biger than 64 MB you could consider saving it in its own file.
+
+ ==== Hadoop File Types ====
+=== SequenceFile ===
+  * SequenceFiles store data as binary key-value pairs. 
+  * There are three formats available :
+          * Uncompressed: not used very often
+          * Record-compressed:  compress each record as it is added to the file
+          * Block-compressed: waits until data reach the block size and then it compresses. If offers a better compression ratio than the record-compressed format.
+  * Only in Java.
+  * In case of Failure, sequence files will be readable to the first failed row
+
+**Each file has a header:**
+  * Synk Marker
+  * Block
+  * synk Marker
+  * block
+  * ..
+==== Serialization Formats ====
+main source: https://www.safaribooksonline.com/library/view/hadoop-application-architectures/9781491910313/ch01.html
+other sources: "Hadoop , The definitive Guide" by Tom White
+
+
+''Serialization refers to the process of turning data structures into byte streams either for storage or transmission over a network. Conversely, deserialization is the process of converting a byte stream back into data structures''
+source: https://www.safaribooksonline.com/library/view/hadoop-application-architectures/9781491910313/ch01.html
+
+
+=== Thrift ===
+  *  Thrift allows us to implement a single interface and use it with different languages (it uses the Interface Definition Language )
+  *  Not used very often because it does not supports record compression
+  *  It's not splittable
+  *  It doesn't have native MapReduce support
+  *  Developped by Facebook
+  *  Can be used in pig: Elephant Bird project 
+
+ === Protocol Buffers ===
+  * Developped by Goodle
+  * Protocol are defined via an Interface Definition Language (IDE)
+  * It's not splittable
+  * It doesn't have native MapReduce support
+  * Not used very often because it does not supports record compression
+  * Can be used in pig: Elephant Bird project 
+
+=== Avro ===
+Avro is a language-neutral data-serialization system. **Similar to the sequenceFile format, but designed to be portable accross languages.**
+
+Properties:
+  * supports compression
+  * the avro datafile contains has a metadata section where the section is stored ==> self describing
+  * rich schema resolution capabilities
+  * is splittable
+  * can be read by Pig, Hive, Crunch, Spark
+  * has an API ==> you can use it in your output format for the webservices
+  * provides a great failure handling: only the affected portion of file is lost (between two sync points)
+Data:
+  * data is usually encoded using binery format
+  * the header of each file contains the schema and a sync marker (block number that are contained)
+  * we can read it by using the avro-tools
+  * the order dépends on the type of the object and cannot be changed by the user (only for recors we have the order attribute)
+  * avro uses byte streams in order to compare the object for the purpose of ordering
+Schema:
+  * is described through a language-independent schema. However, schemas are usually written in JSON
+  * types:
+      * primitive: null, boolean, int, long, float, double,bytes,string
+      * complex: array,map,record,enum,fixed,union
+  * In java in order to map the schema types all types of mapping are used: generic, specific, reflect.
+  * conventional extension: avsc
+  * evolve: alias or projection
+  * offers a support for schema evolution (we don't have to use the same shema to write and read)
+
+ === Columnar Formats ===
+* works well with compression
+* usually well suited for aggregations
+* Columnar formats, do not work well in the event of failure
+ == RCFile ==
+* created for efficient processing for MapReduce applications
+* used only by Hive
+* "breaks files into row splits, then within each split uses column-oriented storage."
+* in comparison with SequenceFiles, this format has some advantages in terms of query and compression performance 
+
+== ORC ==
+  *  created by Hortonworks
+  *  was created in response to the disadvantages of the RCFile  format.
+  *  type-specific readers and writers
+  *  Compression: zlib, LZO, or Snappy
+  *  supported by Hive (on Hortonworks distribution)
+  *  is splittable 
+  *  allows for returning only required data fields
+  *  is not a general-purpose storage format that can be used with non-Hive MapReduce 
+=== Parquet ===
+  *  create by Cloudera
+  *  general-purpose storage format for Hadoop but with mainly the same goals like ORC 
+  *  allows for returning only required data fields
+  *  efficient compression (you can even choose the column that you want to compress)
+  *  supports complex nested data structures
+  *  Parquet files are self-documenting (footers with metadata)
+  *  support for reading/writing to Avro and Thrift APIs
+  * Uses the Dremel encoding: every primitive type field in the schema is stored in a different column and the value is stored as a structure with the definition level and the repetition level. ==> nested columns can be read independenty of other columns
+  * The perquet file has a 
+        * header
+            * 4 byte magic number
+        * footer
+          * the format version, the schema, key-value paiers
+          * the block boundaries are stored in the footer
+      * A lot of blocks
+          * Each block is composed of multiple column chuncks 
+
+===== Describe file read and write paths =====
+==== Read ====
+  * source image: http://www.guru99.com/learn-hdfs-a-beginners-guide.html
+  * source steps: "Hadoop Operations" By Eric Sammer
+{{:wiki:big_data:readhdfs.png|}}
+
+  * We assume that a file X is on the filesystem
+  * The client asking for the file X has to have:
+          * the hadoop client library (JARs)
+          * a copy of the cluster configuration that specifies the NN location
+  * The client ask the NN the permission to read the file X
+  * The NN is checking the validity of the client (if kerberos) and the permissions of the file X.
+  * If everything is OK, the NN sends to the client the first Block ID of the file X and the list of DataNodes on wich he can find it (sorted by distance to client)
+  * The client can contact the most appropiate DN in order to read the block data.
+  * This process repeats until all blocks in the file have been read. 
+
+
+==== Write ====
+source image: http://www.guru99.com/learn-hdfs-a-beginners-guide.html
+{{:wiki:big_data:writehdfs.png|}}
+
+  * 1-2. Client asks the NN if he can create the file X. The NN creates an input in the metadata and returns the block Name and a list of DataNodes to the Client.
+  * 3-6. The Client prepare itself for writing the file (creates a stream object)
+  * 7. The client contacts the first DN that the NN gave to him and starts sending data
+  * 8-9. The DN connects to DN-Y and DN-Z in order to duplicate the data.
+  * 10. The DN sends ack packages to the client
+  * 11-12. When the client finish sending the packages it closes the stream object and it reports to the NN.
+
+
+===== Hadoop File System Shell Commands=====
+==== A: ====
+
+  * __appendToFile:__ hadoop fs -appendToFile localfile1 localfile2 /user/hadoop/hadoopfile
+
+==== C: ====
+
+  * __cat:__ hadoop fs -cat file:///file3 /user/hadoop/file4
+  * __checksum__: hadoop fs -checksum file:///etc/hosts
+  * __chgrp__: hadoop fs -chgrp [-R] GROUP URI [URI ...]
+  * __chmod__: hadoop fs -chmod [-R] <MODE[,MODE]... | OCTALMODE> URI [URI ...]
+  * __chown__: hadoop fs -chown [-R] [OWNER][:[GROUP]] URI [URI ]
+  * __copyFromLocal__: hadoop fs -copyFromLocal <localsrc> URI
+  * __copyToLocal__: hadoop fs -copyToLocal [-ignorecrc] [-crc] URI <localdst>
+  * __count__: hadoop fs -count [-q] [-h] [-v] <paths>
+  * __cp__: hadoop fs -cp /user/hadoop/file1 /user/hadoop/file2 /user/hadoop/dir
+  * __createSnapshot__
+  * __deleteSnapshot__
+
+==== D: ====
+
+  * __df__: <code>hadoop fs -cp /user/hadoop/file1 /user/hadoop/file2 /user/hadoop/dir</code>
+  * __du__: <code>
+hadoop fs -du /user/hadoop/dir1 /user/hadoop/file1 
+hdfs://nn.example.com/user/hadoop
+</code>
+  * __dus__: <code>hadoop fs -dus args</code>
+
+  
+====  E: ====
+ 
+  *    __expunge__: <code>hadoop fs -expunge</code>
+
+==== F: ====
+
+  *  __find__: <code>hadoop fs -find <path> ... <expression> ...</code>
+
+
+==== G: ====
+
+  *    __get__: <code>hadoop fs -get [-ignorecrc] [-crc] <src> <localdst></code>
+  *    __getfacl__: <code>hadoop fs -getfacl [-R] <path></code>
+  *    __getfattr__: <code>hadoop fs -getfattr [-R] -n name | -d [-e en] <path></code>
+  *    __getmerge__: <code>hadoop fs -getmerge <src> <localdst> [addnl]</code>
+
+==== H: ====
+
+  *    __help__: <code>hadoop fs -help</code>
+
+==== L: ====
+
+  *    __ls__: <code>hadoop fs -ls [-d] [-h] [-R] [-t] [-S] [-r] [-u] <args></code>
+  *    __lsr__: <code>hadoop fs -lsr <args></code>
+
+==== M: ====
+
+  *   __mkdir__: <code>hadoop fs -mkdir [-p] <paths></code>
+  *   __moveFromLocal__: <code>hadoop fs -moveFromLocal <localsrc> <dst></code>
+  *   __moveToLocal__: <code>hadoop fs -moveToLocal [-crc] <src> <dst></code>
+  *   __mv__: hadoop fs -mv URI [URI ...] <dest</code>
+
+
+==== P: ====
+
+  *    __put__: <code>hadoop fs -put <localsrc> ... <dst></code>
+
+==== R: ====
+
+  *   <code>__renameSnapshot__</code>
+  *   __rm__: <code>hadoop fs -rm [-f] [-r |-R] [-skipTrash] URI [URI ...]</code>
+  *   __rmdir__: <code>hadoop fs -rmdir [--ignore-fail-on-non-empty] URI [URI ...]</code>
+  *   __rmr__: <code>hadoop fs -rmr [-skipTrash] URI [URI ...]</code>
+
+==== S: ====
+
+  *   __setfacl__: <code>hadoop fs -setfacl [-R] [-b |-k -m |-x <acl_spec> <path>] |[--set <acl_spec> <path>]</code>
+  *   __setfattr__: <code>hadoop fs -setfattr -n name [-v value] | -x name <path></code>
+  *   __setrep__: <code>hadoop fs -setrep [-R] [-w] <numReplicas> <path></code>
+  *   __stat__: <code>hadoop fs -stat [format] <path> ...</code>
+
+==== T: ====
+
+  *   __tail__: <code>hadoop fs -tail [-f] URI</code>
+  *   __test__:  <code>hadoop fs -test -[defsz] URI</code>
+  *   __text__: <code>hadoop fs -text <src></code>
+  *   __touchz__: <code>hadoop fs -touchz URI [URI ...]</code>
+  *   __truncate__: <code>hadoop fs -truncate [-w] <length> <paths></code>
+
+==== U: ====
+
+  *   __usage__: <code>hadoop fs -usage command</code>
+ 

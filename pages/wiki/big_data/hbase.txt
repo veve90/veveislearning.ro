@@ -1,0 +1,11 @@
+====== HBase ======
+===== Copy a Hbase table =====
+<code>
+snapshot 'sourceTable', 'snapshotTable'
+clone_snapshot 'snapshotTable', 'newTable'
+</code>
+
+===== Alter a HBase table =====
+<code>
+alter 'int_events_by_user', {NAME => 'cf_events', KEEP_DELETED_CELLS => 'true'}
+</code>

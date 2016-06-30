@@ -1,0 +1,51 @@
+====== Small files problem ======
+===== Why is this a problem? =====
+==== Namenode ====
+  * it can start slower because it has to scan the metadata.
+  * it consumes more memory:
+if we considered that one observation is 150 bytes of memory then 20 million files of one block will consume 6 GB of memory on the NameNode
+==== Reading ====
+  * random disk read is increased
+==== MapReduce ====
+  * for map reduce jobs we have one map per block ==> if there are a lot of files we will have a lot of map tasks. Note: one map means also one JVM
+===== Solutions? =====
+==== Namenode ====
+  * use archives ==> HAR
+  * use a federated Namenode ==> multiple machines for the NN
+==== MapReduce ====
+  * Pig Job
+<code>
+A = load '/user/data/in' using PigStorage();
+store A into '/user/data/out' using PigStorage();
+</code>
+  * Shell script
+<code>
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+SOURCE_FOLDER=$1
+DESTINATION_FOLDER=$2
+DESTINATION_FOLDER_COMPLETE=${DESTINATION_FOLDER}/files_${TIMESTAMP}.json
+
+hadoop fs -cat $SOURCE_FOLDER | hadoop fs -put - $DESTINATION_FOLDER_COMPLETE
+
+</code>
+  * File Crush Project
+  * Sequence File
+  * HBase table
+  * S3DistCp ==> if you work on aws , http://snowplowanalytics.com/blog/2013/05/30/dealing-with-hadoops-small-files-problem/
+  * CombineFileInputFormat
+  * Hive configuration
+
+Force Hive to create less maps. 
+
+Note: this solution will impact only hive. 
+<code>
+hive.merge.mapfiles=TRUE
+hive.merge.mapredfiles=FALSE
+hive.merge.size.per.task=256000000
+hive.merge.smallfiles.avgsize=16000000
+</code>
+
+sources: 
+http://inquidia.com/news-and-info/working-small-files-hadoop-part-1
+http://inquidia.com/news-and-info/working-small-files-hadoop-part-2
+http://inquidia.com/news-and-info/working-small-files-hadoop-part-3

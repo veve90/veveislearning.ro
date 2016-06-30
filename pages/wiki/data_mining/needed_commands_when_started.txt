@@ -1,0 +1,20 @@
+====== Usefull commands when started ======
+
+===== Set Proxy =====
+  * STEP 1:
+Set the http_proxy and HTTP_PROXY environement variable.
+
+  * STEP 2:
+<code>
+Sys.setenv(http_proxy="my_proxy:80")
+Sys.getenv("http_proxy")
+
+setInternet2(TRUE) # if on windows
+</code>
+
+===== Check working directory: =====
+<code>
+dir()
+getwd()
+list.files(path=".")
+</code>

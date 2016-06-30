@@ -1,0 +1,11 @@
+====== Hive ======
+  * is a platform for creating **map-reduce** jobs with an SQL-like language
+  * was initially developed by Facebook
+  * is using an SQL-like language
+  * depending on the version of Hive that you are using, you might have some surprises on what is already implemented and what is not (like the DELETE keyword)
+  * Before, Hive used the HiveServer1, howadays you can use HiveServer2 (security, Kerberos, thrift...)
+
+
+
+
+https://en.wikipedia.org/wiki/Apache_Hive

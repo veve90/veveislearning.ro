@@ -1,0 +1,7 @@
+====== Impala ======
+
+
+  * was built by Cloudera
+  * uses an SQL-like syntax
+  * is 10-50 times faster than Hive
+  * uses Hive metastore

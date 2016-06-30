@@ -1,0 +1,73 @@
+====== Limba romana ======
+
+**Am sa imi cer iertare din prima pentru ca nu am sa scriu cu diactritice!**
+
+Sunt romanca, nascuta in Romania, dar inca fac greseli in limba romana.
+
+===== Am fost mers =====
+Eu folosesc destul de des expresia **"am fost mers"**. Si asta e gresit, chair daca sunt multi alti oameni care folosesc "**timpul asta"**. Am sa dau un exemplu simplu, blogul asta: [[http://amfostacolo.ro/impresii9.php?iid=43875&d=pensiunea-decebal-dubova-mh--clisura-dunarii]]
+
+Am pus intre ghilimele timpul asta pentru ca defapt timpul asta "am fost mers" nu exista.
+
+==== Conjugarea verbului a merge ====
+
+| **Infnitiv** | Prezent | a merge |
+| **Infnitiv** | Perfect | a fi mers |
+| __Indicativ__ | Prezent | eu merg, tu mergi, el/ea merge, noi mergem, voi mergeți, ei/ele merg |
+| __Indicativ__ | Imperfect | eu mergeam, tu mergeai, el/ea mergea, noi mergeam, voi mergeați, ei/ele mergeau |
+| __Indicativ__ | Perfect simplu |eu mersei, tu merseși, el/ea merse, noi merserăm, voi merserăți, ei/ele merseră |
+| __Indicativ__ | Perfect compus |eu am mers, tu ai mers, el/ea a mers, noi am mers, voi ați mers, ei/ele au mers |
+| __Indicativ__ | Mai mult ca perfect | eu mersesem, tu merseseși, el/ea mersese, noi merseserăm, voi merseserăți, ei/ele merseseră |
+| __Indicativ__ | Viitor | eu voi merge, tu vei merge, el/ea va merge, noi vom merge, voi veți merge, ei/ele vor merge |
+| __Indicativ__ | Viitor anterior | eu voi fi mers, tu vei fi mers, el/ea va fi mers, noi vom fi mers, voi veți fi mers,ei/ele vor fi mers |
+| //Conjunctiv// | Prezent | eu să merg, tu să mergi, el/ea să meargă, noi să mergem, voi să mergeți, ei/ele să meargă |
+| //Conjunctiv// | Perfect | eu să fi mers, tu să fi mers, el/ea să fi mers, noi să fi mers, voi să fi mers,  ei/ele să fi mers |
+| ''Condiţional'' | Prezent | eu aș merge, tu ai merge, el/ea ar merge, noi am merge, voi ați merge, ei/ele ar merge |
+| ''Condiţional'' | Perfect | eu aș fi mers, tu ai fi mers, el/ea ar fi mers, noi am fi mers, voi ați fi mers, ei/ele ar fi mers |
+
+==== De une vine greseala ====
+Eu cred ca am inceput sa fac greseala aceasta pentru ca exista anumite expresii care sunt corecte care au o forma similara:
+
+=== am fost facut ===
+  * Am fost făcut cu ou şi cu oţet ==> cineva m-a facut cu ou si cu oţet 
+  * Am fost facut sa n-am pe-acest Pamant nimic , vers din cantecul  " Balada saracului " de Aurel Tamas.
+
+===== Cacofoniile =====
+  * nu sunt greseli de ortografie
+  * sunt doar inestetice ==> doar o sonoritatea supărătoare
+
+
+Dupa anumite situri (ex: [[http://www.limba-romana.net/lectie/CACOFONIA--Definitie-si-exemple/61/]]), foarte multe grupari sunt cacofonii:
+la/la; sa/sa; ca/ca;  ca/ce(ci); că/ca; cu/co; că/co; că/cu; că/când; cii/ru; pul/a
+
+Dupa wikipedia ([[https://ro.wikipedia.org/wiki/Cacofonie]]), doar gruparea ca-ca si celelate grupari asemanatoare (cu diacritice) reprezinta o cacofonie.
+
+
+
+
+===== Ora doi =====
+In ardeal, noi spunem ca e ora doi si nu ora doua.
+
+
+Dupa dexonline ar trebui sa spunem "ora doua" [[https://dexonline.ro/articol/Ghid_de_exprimare_corect%C4%83]]
+
+Pe forumuri parerile sunt impartite. [[http://vorbesc.ro/549/ora-doua-sau-ora-doi-cum-e-corect-si-de-ce]]
+De ce corectam **ora doi** pe motivul ca **ora este feminin** si nu corectam urmatorele:
+  * nota doi ==> de ce nu spunem nota doua ?
+  * scara doi ==> de ce nu spunem scara doua ?
+
+===== Fusai =====
+
+Fusai est **perfectul simplu** al verbului a fi.
+
+Dupa wikipedia [[https://ro.wikipedia.org/wiki/Timp_(gramatic%C4%83)]]:
+
+''Perfectul simplu are aceeași valoare absolută ca perfectul compus, dar în limba română standard este rezervat limbii literare, fiind concurat și în aceasta de perfectul compus. Este preferat acestuia în narațiuni, ca însoțitor al vorbirii indirecte: – Unde ai fost? întrebă el. – M-am plimbat în parc, răspunse ea.''
+
+Dupa [[https://dexonline.ro/definitie/perfect]]:
+
+''timp trecut care exprimă acțiunea fără a o raporta la momentul vorbirii, sau raportând-o la un trecut mai apropiat''
+
+Dupa [[http://www.morfologia.ro/modurile-verbului/]]:
+
+''Verbul la perfectul simplu exprima o actiune trecuta si terminata de curand: vorbii, vorbisi, vorbi, vorbiram, vorbirati, vorbira''

@@ -1,0 +1,55 @@
+====== Hive UDFs/ General UDFs ======
+**Tutorials** 
+  * [[http://mark.thegrovers.ca/blog/how-to-write-a-hive-udf]]
+  * [[http://www.baynote.com/2012/11/a-word-from-the-engineers/]]
+
+**How to solve this error while creating GenericUDFs:**
+<code>
+  Caused by: org.apache.hive.com.esotericsoftware.kryo.KryoException: Encountered unregistered class ID: 175
+  Serialization trace:
+  structObjectInspector (com.agherman.params.MyFunction)
+  genericUDF (org.apache.hadoop.hive.ql.plan.ExprNodeGenericFuncDesc)
+  colExprMap (org.apache.hadoop.hive.ql.exec.SelectOperator)
+  childOperators (org.apache.hadoop.hive.ql.exec.FilterOperator)
+  childOperators (org.apache.hadoop.hive.ql.exec.TableScanOperator)
+  aliasToWork (org.apache.hadoop.hive.ql.plan.MapWork)
+  at org.apache.hive.com.esotericsoftware.kryo.util.DefaultClassResolver.readClass(DefaultClassResolver.java:119)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readClass(Kryo.java:656)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:99)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.FieldSerializer.read(FieldSerializer.java:507)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readObject(Kryo.java:694)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:106)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.FieldSerializer.read(FieldSerializer.java:507)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readClassAndObject(Kryo.java:776)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.MapSerializer.read(MapSerializer.java:139)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.MapSerializer.read(MapSerializer.java:17)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readObject(Kryo.java:694)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:106)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.FieldSerializer.read(FieldSerializer.java:507)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readClassAndObject(Kryo.java:776)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.CollectionSerializer.read(CollectionSerializer.java:112)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.CollectionSerializer.read(CollectionSerializer.java:18)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readObject(Kryo.java:694)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:106)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.FieldSerializer.read(FieldSerializer.java:507)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readClassAndObject(Kryo.java:776)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.CollectionSerializer.read(CollectionSerializer.java:112)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.CollectionSerializer.read(CollectionSerializer.java:18)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readObject(Kryo.java:694)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:106)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.FieldSerializer.read(FieldSerializer.java:507)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readClassAndObject(Kryo.java:776)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.MapSerializer.read(MapSerializer.java:139)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.MapSerializer.read(MapSerializer.java:17)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readObject(Kryo.java:694)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:106)
+  at org.apache.hive.com.esotericsoftware.kryo.serializers.FieldSerializer.read(FieldSerializer.java:507)
+  at org.apache.hive.com.esotericsoftware.kryo.Kryo.readObject(Kryo.java:672)
+  at org.apache.hadoop.hive.ql.exec.Utilities.deserializeObjectByKryo(Utilities.java:943)
+  at org.apache.hadoop.hive.ql.exec.Utilities.deserializePlan(Utilities.java:851)
+  at org.apache.hadoop.hive.ql.exec.Utilities.deserializePlan(Utilities.java:865)
+  at org.apache.hadoop.hive.ql.exec.Utilities.getBaseWork(Utilities.java:335)
+</code>
+
+=> set the folowing parameter:
+<code>SET hive.plan.serialization.format = javaXML;</code>

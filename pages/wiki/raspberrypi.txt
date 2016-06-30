@@ -1,0 +1,6 @@
+**Making a surveillance camera with a rasberrypy**
+  * [[http://www.framboise314.fr/une-camera-de-surveillance-video-avec-le-raspberry-pi/]]
+  * [[http://www.raspberrypi.org/help/camera-module-setup/]]
+  * [[http://www.averagemanvsraspberrypi.com/2014/09/turn-raspberry-pi-into-cctv-security.html]]
+  * [[http://www.magdiblog.fr/domotique/systeme-de-tele-surveillance-abordable-avec-des-raspberry-pi/]]
+  * [[https://blog.adafruit.com/2014/09/12/motionpie-turn-your-raspberry-pi-into-a-security-camera-piday-raspberrypi-raspberry_pi/]]

@@ -1,0 +1,29 @@
+====== Operational Support : Detect, Predict, Recommend======
+  * Detect if someting is going wrong right now
+  * Recommand which activities should be executed
+  * Predict when will the case finish
+  * ...
+**Operational support **
+  * **detection:**  compare the normative model with the trace log. If it doesn't fit => detect fault.
+  * **prediction:** compare the normative model with the trace log and predict completion of the trace.
+
+
+**Use an anotated transition system:**
+  * t = time entering state
+  * e = elapsed time
+  * r = remaining time
+  * s = sojourn time
+
+**Do this for a bunch of cases and compute variance, average time etc.**
+
+**Note:** 
+  * Use context while recommendetation ( do not ignore that there are a lot of cases waiting in a queue)
+  * Ability to predict = ability to recommend
+
+
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

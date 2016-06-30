@@ -1,0 +1,14 @@
+==== alignement-based ====
+  * use the computation of the best case scenario 
+  * **cost function =** compute move in model only+ compute move in trace only
+  * **fitness =** use the worst case scenario = 1 - (optimal cost function)/ (trace length + best case scenario length)
+
+  * + => can help us find out where the deviants happen
+  * + => can help us to drill down
+
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

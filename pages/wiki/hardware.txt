@@ -1,0 +1,12 @@
+====== Hardware ======
+===== Disk =====
+      * **JBOD** = just a bunch of disks
+              * uses all the space available on all disks
+              * is a cost-effective solution
+      * **RAID** = redundant array of inexpensive/independent disks
+              * need to store redundant data ==> less capacity
+              * read/write are much faster than on JBOD
+
+The individual disks of a JBOD array can each serve as a volume or they can be concatenated, or spanned, to form one single logical volume or LUN.  Whereas RAID demands that all drives be of similar capacity, JBOD drives can be of various sizes.
+
+source: http://www.acnc.com/blog/jbod-vs-raid-cost-effective-network-storage-options/

@@ -1,0 +1,30 @@
+====== Definitions ======
+  * __DAO:__ data access object (DAO) is an object that provides an abstract interface to some type of database or other persistence mechanism
+  * __SRP__ Single REsponsability Principle: the classes/methods/components should have only one reason to change.
+  * __DRY__
+
+====== Principles ======
+===== SOLID (object-oriented design) =====
+  * **S:** [[http://en.wikipedia.org/wiki/Single_responsibility_principle]] the **single responsibility principle** states that every class should have a single responsibility, and that responsibility should be entirely encapsulated by the class. 
+  * [[http://en.wikipedia.org/wiki/Open/closed_principle]]**Open/closed principle:** "the open/closed principle states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification""
+  * **Liskov substitution principle**
+  *** Interface segregation principle**
+  * **Dependency inversion principle :**  the dependency inversion principle refers to a specific form of decoupling software modules. 
+
+===== CRUD (Create, read, update and delete) =====
+
+====== Java patterns ======
+  * The null object pattern
+  * Handeling error patterns
+
+====== Concurency ======
+  * The __ConcurrentHashMap__ performs better than the HashMap in nearly all situations
+  * __Deadlock:__ 2 or more threads waiting for each other to finish
+  * __Livelock:__ threads in lockstep, each trying to do work but finding another "in the way"
+
+
+====== Notes ======
+  * JPS is a tool installed by default when you install java openjdk.In order to be able to run **jps** you need java openjdk < 8
+<code>
+alias jps='/usr/path/to/java/bin/jps'
+</code>

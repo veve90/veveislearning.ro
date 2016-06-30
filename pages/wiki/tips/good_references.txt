@@ -1,0 +1,7 @@
+====== Good references ======
+
+  * AWS and Cloudera(2013): [[http://www.thecloudavenue.com/2013/04/setting-up-cdh-cluster-on-amazon-ec2-in.html]]
+  * Spring: [[http://www.mkyong.com/tutorials/spring-batch-tutorial/]]
+  * Coding in general:
+      * The Clean Coder: A Code of Conduct for Professional Programmers  [[http://www.amazon.com/The-Clean-Coder-Professional-Programmers/dp/0137081073]]
+      * The Pragmatic Programmer: From Journeyman to Master  [[http://www.amazon.com/The-Pragmatic-Programmer-Journeyman-Master/dp/020161622X]]

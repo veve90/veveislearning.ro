@@ -1,0 +1,29 @@
+===== Workflow Nets (WF-Nets) and BPM =====
+
+
+  * BPM (Business Process Management) = liking between IT and process management
+  * BPMN = Business process model and notation
+  * EPCs = Event driven process chains
+  * WF-Nets = a type of Petry Nets with one start place and one end state.
+  * Is my model a good model?
+
+  *  no if it contains deadlocks
+  *  no if there is and AND-split without an AND-join associated
+  *  no dead states
+  *  if the end state is reached, all the other states should be empty 
+**Soundness**
+{{ :wiki:data_mining:soundness.png?nolink&300 |}}
+  * places cannot hold multiple tokens at the same time
+  * no dead parts
+  * have the option to complete
+
+**Propetries**
+
+The option to complete implies proper completion
+A WF-net is sound if and only if the corresponding "short-circuited" Petri net is live and bounded
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

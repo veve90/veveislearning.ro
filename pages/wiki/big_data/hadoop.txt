@@ -1,0 +1,9 @@
+====== Hadoop ======
+
+Is a framework in response to Big Data problems. 
+  * analysing large volumes of data
+  * processing large volumes of data
+  * big computers cost a lot (monolitic computing) ==> use a lot of smaller computers (distributed computing)
+  * data access is one of the bottlenecks of processing data
+  * handle failues on big data processes
+

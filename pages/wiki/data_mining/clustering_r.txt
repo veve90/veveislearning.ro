@@ -1,0 +1,138 @@
+====== Clustering in R ======
+
+
+====== Step 1 read data ======
+<code>
+input <- read.csv(file="my_data.csv",head=TRUE,sep=",") 
+</code>
+
+====== Step 2: prepare data ======
+Create a variable for the transformed input:
+<code>
+preparedData <- input
+</code>
+
+
+Delete the  unnecessary columns:
+<code>
+preparedData$oneColumn <- NULL
+</code>
+
+
+Transform columns:
+<code>
+preparedData$anotherColumn <-(input$myInputColumn/max(input$myInputColumn))*100
+</code>
+
+
+Test if my columns are corelated or not:
+<code>
+cor(preparedData)
+</code>
+
+
+Scale the columns:
+<code>
+scaledData<- scale(preparedData, center = FALSE, scale = apply(preparedData, 2, sd, na.rm = TRUE)) 
+</code>
+
+====== Step 3: Cluster and Visualize ======
+==== K-Means ====
+<code>
+clusterKmeans <- kmeans(scaledData, centers=3, nstart = 1000) 
+
+# simplest plot
+plotcluster(scaledData, clusterKmeans$cluster, pch = 10)
+
+# plot with dimensions
+clusplot(scaledData, clusterKmeans$cluster, color=TRUE, shade=TRUE, 
+         labels=2, lines=0)
+         
+# boxplot
+bp <- ggplot(assignments, aes(easy, famos)) + geom_boxplot()
+bp 
+</code>
+
+
+==== pam ====
+One implementaion of k-medoids ([[https://en.wikipedia.org/wiki/K-medoids]]).
+<code>
+clustersPam <- pam(scaledData, 5, trace.lev = 3, stand = TRUE, metric = "manhattan") 
+
+# simplest plot    
+plotcluster(scaledData,clustersPam$clustering,pch=10)  
+
+# plot  with dimensions
+clusplot(scaledData, clustersPam$clustering, color=TRUE, shade=TRUE, 
+         labels=2, lines=0)  
+         
+ # plot with interactive labels
+dcmat <- discrcoord(scaledData, clustersPam$clustering)
+plotcluster(scaledData,clustersPam$clustering,pch=10)
+identify(dcmat$proj[,1], dcmat$proj[,2], labels=1:5544)        
+ 
+  </code>      
+  
+  
+==== pamkCBI ====
+Is an interface to PAM.
+
+<code>
+clustersPam2 <- pamkCBI(scaledData, krange=2:7, usepam = TRUE) 
+clustersPam2 
+</code>
+
+
+====  disthclustCBI ====
+Is an interface to Interface to HClust.
+
+<code>
+
+#compute distances
+distances<-dist(scaledData, method="manhattan",upper=FALSE,p=2)
+
+#compute clustering
+dhc<-disthclustCBI(distances,7,noisecut=2,method="centroid") 
+
+#plot
+table(dhc$partition,dhc$partition)
+dhc
+
+#plot simple
+plot(dhc)
+
+#plot with dimensions
+clusplot(scaledData, dhc$clustering, color=TRUE, shade=TRUE,labels=2, lines=0)
+</code>
+
+
+
+==== clusterboot ====
+<code>
+clusterBoot <- clusterboot(dist(scaledData),B=3,bootmethod=
+"subset",clustermethod=disthclustCBI,
+k=5, cut="number", method="average", showplots=TRUE, seed=135)
+
+#print
+print(clusterBoot)
+
+</code>
+
+
+ ====hclust ====
+Hierarchical Clustering.
+
+<code>
+reshclust <- hclust(dist(scaledData)^2, method = "cen")
+
+#plot
+plot(reshclust , labels = FALSE, hang = -1, main = "HClust")
+</code>
+
+ ====dbscan ====
+<code>
+dbscanRes <- dbscan(scaledData, eps=.3, MinPts=5)
+dbscanRes 
+str(dbscanRes)
+plot(scaledData, col=dbscanRes$cluster+1L)
+</code>

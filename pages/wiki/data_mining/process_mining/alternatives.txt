@@ -1,0 +1,40 @@
+**note:**
+  * **add behaviour =** add transition/remove places/remove arcs from a place to transition/add arcs from a transition to a place
+  * **remove behaiour** = remove transition/add a place/remove arcs from a transition to place /add arcs from a place to transition
+
+====== Language Based Regions ======
+- similar to 2-steps aproach but we don't construct a transition system. we are starting directly from traces.
+
+''c . 1 + A' . x - A' . y >= 0''
+
+A place cannot become negative (we can't have a negative number of tokens in a place)
+
+  * x, y= number of arcs in a petri net from each place to the place we want to discover
+  * c = number of token in the place that wwe want to discover
+  * A, A' = matrice representing the traces
+
+ILP techniques are used for solving the equations
+
+====== Genetic process mining ======
+  * - from a log we are randomly generating some process models. Then we evaluate the models and take only the best ones. Then be can use mutation to change the model and iterate again.
+  * - after 100-1000 iterations we end up with a good model
+
+**+ and -**
+  * - realy slow 
+  * - extremly flexible
+  * - used when we don't know what we  to get
+
+====== Inductive mining ======
+  * - we are decomposing each event log into multiple traces
+  * - use the sequence operator in order to glue the multiple processes toghether
+  * - the decomposition is creating a process tree
+  * - the process tree can be converted into a BPMN/petri net..
+  * - is supported by ProM
+  * - in the ProM tool we can choose the level of abstraction
+
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

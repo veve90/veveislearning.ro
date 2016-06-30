@@ -1,0 +1,77 @@
+====== Computer network ======
+===== Definitions =====
+
+**PV** = **Paravirtualization** = "is a virtualization technique that presents a software interface to virtual machines that is similar, but not identical to that of the underlying hardware."
+
+**HVM** = **Hardware-assisted virtualization ** = **native virtualization** = " hardware-assisted virtualization is a platform virtualization approach that enables efficient full virtualization using help from hardware capabilities, primarily from the host processors."
+
+**NAS** = **Network Attached Storage** = a server that has a light OS, connected to a network, that supports the popular file sharing protocols. It is usually used for saving shared data between different clients. At home, it is used for saving backups.
+
+**SAN** = **Storage Area Network** = is a high speed network that connect multiple storage devices to multiple servers
+
+{{ :wiki:767px-das-nas-san.gif?nolink |}}
+(image source: http://mars.merhot.dk/mediawiki/index.php/File:DAS-NAS-SAN.GIF)
+
+
+**Blade Server** 
+  * is a server that contains multiple modules (blades) in the same chassis (optimized for saving space). 
+  * it is often used in data centers
+  * it can be self-standing or rack mounted. 
+  * the chassis __provides the power supply__, and __each blade has its own CPU, memory and hard disk__.
+  * ususlly they provide their own management systems and may include a network or storage switch
+
+{{ :wiki:blade_server.jpg?nolink |}}
+source image: http://www.fujitsu.com/global/Images/fs04-bladeserver-fig01_tcm100-866522.jpg
+
+
+
+**HPC** = ** High Performance Computing** = Usually refers to using multiple computers in order to have the needed power. (cluster of computers)
+
+
+
+**OSI Model** =  **Open Systems Interconnection model** = "is a conceptual model that characterizes and standardizes the communication functions of a telecommunication or computing system without regard of their underlying internal structure and technology" (source: https://en.wikipedia.org/wiki/OSI_model)
+
+The original version of the model defined seven layers.
+{{ :wiki:osi_model.png?nolink |}}
+
+**1-GbE Ethernet Standard** = **Gigabit Ethernet** = is used for various technologies that can transmit data at 1 Gigabit per second, as defined by the IEEE 802.3-2008 standard
+
+
+**ECMP** =** Equal-cost multi-path routing** = is a stategy of packet forwarding, that finds multiple "best paths" , and that uses a "per-hop decision" in order to find the best paths.
+
+**Spanning-Tree Protocol**= a protocol that is takes care that there is no loop in the topology. It is used in local Ethernet networks.
+
+
+=====  Network Architecture =====
+**oversubscribe** = the desired bandwidth devided by the available bandwidth
+
+
+====3 Tiers ====
+  * lot of North/South communication
+{{ :wiki:three_tier.png |}}
+====Spine fabric ====
+  * East/west communication
+  * Mostly used in virtualized infrastructures
+{{ :wiki:leaf_spine-1024x682.png |}}
+
+
+=====  Virtualization =====
+source: https://en.wikipedia.org/wiki/Hardware-assisted_virtualization
+
+"**Paravirtualization** is a technique in which the hypervisor provides an API and the OS of the guest virtual machine calls that API, requiring OS modifications."
+
+**Full virtualization(HVM)**  relies on binary translation to trap and virtualize the execution of certain sensitive, non-virtualizable instructions. 
+Note: VirtualBox is an implementation of full virtualization.
+
+===== Chef/Puppet  =====
+https://www.chef.io/chef/
+
+https://puppetlabs.com/puppet/what-is-puppet
+
+Chef and puppet have the same goals :automate the build of your infrastructure. " transform your infrastructure into code"
+
+**How does it work?**
+  * The server (chef/Puppet) stores your recipes as well as other configuration data. 
+  * The Chef/Puppet client is installed on each server.
+  * The client periodically polls Chef/Puppet server recipe configuration (policy) and if one of the server is out of date, the client brings it up to date.
+

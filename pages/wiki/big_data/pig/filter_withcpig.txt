@@ -1,0 +1,13 @@
+====== Exemples of filtering with pig ======
+
+Filtering and using a regex:
+
+<code>  
+my_resultA = filter A by A_field matches 'CM.*';
+</code>
+
+Filtering by plain fields:
+
+<code> 
+my_resultB = filter A by A_field =='CM';
+</code>

@@ -1,0 +1,9 @@
+====== Synology DS213j ======
+ 
+Synology DS213j is a Serveur de stockage NAS pour 2 Disques Durs Blanc. 
+I bought it one mounth ago.. here is what I think about it...
+
+
+  * **-** the CPU is not powerfull enough. 
+  * **-** I cannot copy folders
+  * **+** user friendly interface

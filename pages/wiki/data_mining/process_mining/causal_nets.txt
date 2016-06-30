@@ -1,0 +1,17 @@
+====Causal Nets or C-Nets ====
+{{ :wiki:data_mining:cnet.png?nolink |}}
+  * start activity: **a** and can happen only once
+  * after **a** we can have either **b** and **d** or **c** and **d** (see **bindings**)
+  * notion of **obligation**: like tokens
+  * at the end we shouldn't have any **obligation**
+  * end activity : **z**
+  * no more notion of deadblocks..
+  * there are translations into petri net representaitons
+  * used by algorithms that are less sensitives to noise
+  * valid bindings sequences of C-net => valid firing sequence of WF-net
+
+----
+
+This page contains my personal notes from the coursera course **Process Mining: Data science in Action** made by **Wil van der Aalst.** Images from the coursera videos may have been taken.
+
+ --- //[[alinagherman@hotmail.fr|veve]] 2015/01/04 12:45//

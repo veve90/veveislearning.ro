@@ -1,0 +1,14 @@
+====== Infrastructure Configuration ======
+
+===== Chef/Puppet  =====
+https://www.chef.io/chef/
+
+https://puppetlabs.com/puppet/what-is-puppet
+
+Chef and puppet have the same goals :automate the build of your infrastructure. " transform your infrastructure into code"
+
+**How does it work?**
+  * The server (chef/Puppet) stores your recipes as well as other configuration data. 
+  * The Chef/Puppet client is installed on each server.
+  * The client periodically polls Chef/Puppet server recipe configuration (policy) and if one of the server is out of date, the client brings it up to date.
+
