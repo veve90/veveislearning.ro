@@ -1,0 +1,11 @@
+1448127309	82.235.148.82	C	wiki:big_data:ccah500:planning	veve	created	
+1448128061	82.235.148.82	E	wiki:big_data:ccah500:planning	veve	[Choosing the hardware and the OS on the Apache Hadoop cluster.] 	
+1448227535	154.52.129.35	E	wiki:big_data:ccah500:planning	veve	[Choosing the hardware and the OS on the Apache Hadoop cluster.] 	
+1448227584	154.52.129.35	E	wiki:big_data:ccah500:planning	veve	[Analyze the choices in selecting an OS] 	
+1448227623	154.52.129.35	E	wiki:big_data:ccah500:planning	veve	[Understand kernel tuning and disk swapping] 	
+1448227643	154.52.129.35	E	wiki:big_data:ccah500:planning	veve	[Understand kernel tuning and disk swapping] 	
+1448227670	154.52.129.35	E	wiki:big_data:ccah500:planning	veve	[Given a scenario and workload pattern, identify a hardware configuration appropriate to the scenario] 	
+1448227704	154.52.129.35	E	wiki:big_data:ccah500:planning	veve	[Given a scenario, determine the ecosystem components your cluster needs to run in order to fulfill the SLA] 	
+1448228010	154.52.129.35	E	wiki:big_data:ccah500:planning	veve	[Cluster sizing: given a scenario and frequency of execution, identify the specifics for the workload, including CPU, memory, storage, disk I/O] 	
+1448228247	154.52.129.35	E	wiki:big_data:ccah500:planning	veve	[Disk Sizing and Configuration, including JBOD versus RAID, SANs, virtualization, and disk sizing requirements in a cluster] 	
+1448228289	154.52.129.35	E	wiki:big_data:ccah500:planning	veve	[Network Topologies: understand network usage in Hadoop (for both HDFS and MapReduce) and propose or identify key network design components for a given scenario] 	

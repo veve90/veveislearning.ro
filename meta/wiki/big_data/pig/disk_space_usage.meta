@@ -1,0 +1,9 @@
+a:2:{s:7:"current";a:9:{s:4:"date";a:2:{s:7:"created";i:1434869761;s:8:"modified";i:1434869772;}s:7:"creator";s:13:"Alina GHERMAN";s:4:"user";s:4:"veve";s:11:"last_change";a:7:{s:4:"date";i:1434869772;s:2:"ip";s:14:"77.242.202.244";s:4:"type";s:1:"E";s:2:"id";s:34:"wiki:big_data:pig:disk_space_usage";s:4:"user";s:4:"veve";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:5:"title";s:43:"Pig is using too much disk while map-reduce";s:11:"description";a:2:{s:15:"tableofcontents";a:3:{i:0;a:4:{s:3:"hid";s:43:"pig_is_using_too_much_disk_while_map-reduce";s:5:"title";s:43:"Pig is using too much disk while map-reduce";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:1;a:4:{s:3:"hid";s:18:"use_diferent_names";s:5:"title";s:18:"Use Diferent Names";s:4:"type";s:2:"ul";s:5:"level";i:2;}i:2;a:4:{s:3:"hid";s:36:"check_the_projections_after_group_by";s:5:"title";s:36:"Check the projections after group by";s:4:"type";s:2:"ul";s:5:"level";i:2;}}s:8:"abstract";s:261:"Pig is using too much disk while map-reduce
+
+Use Diferent Names
+
+Use diferent names for each single variable (do not reuse variables names). Pig will not know if he can or cannot delete some temporary data.
+
+Check the projections after group by
+
+Something like:";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}s:11:"contributor";a:1:{s:4:"veve";s:13:"Alina GHERMAN";}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1434869761;s:8:"modified";i:1434869772;}s:7:"creator";s:13:"Alina GHERMAN";s:4:"user";s:4:"veve";s:11:"last_change";a:7:{s:4:"date";i:1434869772;s:2:"ip";s:14:"77.242.202.244";s:4:"type";s:1:"E";s:2:"id";s:34:"wiki:big_data:pig:disk_space_usage";s:4:"user";s:4:"veve";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:4:"veve";s:13:"Alina GHERMAN";}}}

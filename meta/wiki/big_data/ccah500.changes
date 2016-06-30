@@ -1,0 +1,32 @@
+1444801578	2a01:e35:2eb9:4520:6109:50d7:5d6e:f4ed	C	wiki:big_data:ccah500	veve	created	
+1444802530	2a01:e35:2eb9:4520:6109:50d7:5d6e:f4ed	E	wiki:big_data:ccah500	veve		
+1444802577	2a01:e35:2eb9:4520:6109:50d7:5d6e:f4ed	E	wiki:big_data:ccah500	veve	[Describe the function of HDFS Daemons] 	
+1444803145	2a01:e35:2eb9:4520:6109:50d7:5d6e:f4ed	E	wiki:big_data:ccah500	veve	[Describe the normal operation of an Apache Hadoop cluster, both in data storage and in data processing.] 	
+1444803562	2a01:e35:2eb9:4520:6109:50d7:5d6e:f4ed	E	wiki:big_data:ccah500	veve	[Given a scenario, identify appropriate use case for HDFS Federation] 	
+1444804053	2a01:e35:2eb9:4520:6109:50d7:5d6e:f4ed	E	wiki:big_data:ccah500	veve		
+1444804084	2a01:e35:2eb9:4520:6109:50d7:5d6e:f4ed	E	wiki:big_data:ccah500	veve	[Determine the best data serialization choice for a given scenario] 	
+1444804467	2a01:e35:2eb9:4520:6109:50d7:5d6e:f4ed	E	wiki:big_data:ccah500	veve	[Describe file read and write paths] 	
+1444856283	77.242.202.235	E	wiki:big_data:ccah500	veve	[Given a scenario, identify appropriate use case for HDFS Federation] 	
+1444856409	77.242.202.235	E	wiki:big_data:ccah500	veve	[Given a scenario, identify appropriate use case for HDFS Federation] 	
+1444856587	77.242.202.235	E	wiki:big_data:ccah500	veve		
+1446574362	77.242.202.237	E	wiki:big_data:ccah500	veve	[6. Monitoring and Logging (15%)] 	
+1446574521	77.242.202.237	E	wiki:big_data:ccah500	veve	[Identify how to view and manage Hadoop’s log files] 	
+1446574537	77.242.202.237	E	wiki:big_data:ccah500	veve	[Describe how to monitor swap and memory allocation on all nodes] 	
+1446904345	2a01:e35:2eb9:4520:a872:1eb6:19bd:102b	E	wiki:big_data:ccah500	veve	[Describe the normal operation of an Apache Hadoop cluster, both in data storage and in data processing.] 	
+1446904373	2a01:e35:2eb9:4520:a872:1eb6:19bd:102b	E	wiki:big_data:ccah500	veve		
+1446904447	2a01:e35:2eb9:4520:a872:1eb6:19bd:102b	E	wiki:big_data:ccah500	veve		
+1446904475	2a01:e35:2eb9:4520:a872:1eb6:19bd:102b	E	wiki:big_data:ccah500	veve		
+1446904492	2a01:e35:2eb9:4520:a872:1eb6:19bd:102b	E	wiki:big_data:ccah500	veve		
+1447508661	2a01:e35:2eb9:4520:d0a9:ceee:bffa:7d22	E	wiki:big_data:ccah500	veve	[2. YARN and MapReduce version 2 (MRv2) (17%)] 	
+1447509503	2a01:e35:2eb9:4520:d0a9:ceee:bffa:7d22	E	wiki:big_data:ccah500	veve		
+1447509511	2a01:e35:2eb9:4520:d0a9:ceee:bffa:7d22	E	wiki:big_data:ccah500	veve	[CCAH500] 	
+1447509531	2a01:e35:2eb9:4520:d0a9:ceee:bffa:7d22	E	wiki:big_data:ccah500	veve	[CCAH500] 	
+1448127206	82.235.148.82	E	wiki:big_data:ccah500	veve	[CCAH500] 	
+1448127214	82.235.148.82	E	wiki:big_data:ccah500	veve	[CCAH500] 	
+1448127227	82.235.148.82	E	wiki:big_data:ccah500	veve	[3. Hadoop Cluster Planning (16%)] 	
+1448705279	82.235.148.82	E	wiki:big_data:ccah500	veve		
+1448705286	82.235.148.82	E	wiki:big_data:ccah500	veve	[4. Hadoop Cluster Installation and Administration (25%)] 	
+1448715697	82.235.148.82	E	wiki:big_data:ccah500	veve	[5. Resource Management (10%)] 	
+1448715726	82.235.148.82	E	wiki:big_data:ccah500	veve	[CCAH500] 	
+1448722838	82.235.148.82	E	wiki:big_data:ccah500	veve		
+1448722853	82.235.148.82	E	wiki:big_data:ccah500	veve		
