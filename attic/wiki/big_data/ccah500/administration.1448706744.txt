@@ -1,0 +1,51 @@
+====== 4. Hadoop Cluster Installation and Administration (25%) ======
+
+===== Given a scenario, identify how the cluster will handle disk and machine failures =====
+  * HDFS replicates data blocks on nodes on different racks
+
+**If a NodeManager fails: ** 
+    * the Resource Manager removes it from the list of the active nodes
+    * the tasks on this node are considered as failed by the ApplicationManager
+    * if the ApplicationManager fails => failed application
+
+
+**If the ResourceManager fails: ** 
+  * No application or task can be launched
+  * can be configured in HA
+
+
+**If NameNode goes down:**
+  * if we are not in HA , the cluster is inaccessible
+
+**If DataNode goes down:**
+  * the NameNode will re-replicate the blocks that were on this machine
+  * the jobs will access the data on the remaining machines
+===== Analyze a logging configuration and logging configuration file format =====
+==== Daemon Log ====
+  * each hadoop daemon will produce two log files: .log and .out (stdout+stderr)
+  *  /var/log/hadoop-<component> (configurable location in hadoop-env.sh)
+  * usually maximum disk space for logs: 5 GB
+  * the logs retention is configurable:
+        * the RFS: RollingFileAppender
+        * /etc/hadoop/conf/log4j.properties
+  * exemple:
+      * /var/log/hadoop-hdfs/hadoop-hdfs-machinename.log
+      * /var/log/hadoop-yarn/yarn-yarn-machinename.log
+  * change the daemonlog level: 
+
+        - shell: hadoop daemonlog –setlevel <daemon_host>:<daemon_HTTP_port> <logger> <level-like ERROR, WARN, INFO..> (CHANGE NOT PERSISTENt AFTER RESTART)
+        - web: http://<daemon_host>:<daemon_HTTP_port>/logLevel (CHANGE NOT PERSISTENt AFTER RESTART)
+       - PERSISTENT CHANGE: /etc/hadoop/conf/log4j.properties
+
+
+==== Job Log ====
+  * The application Manager Log
+  * Task stdout, stderr, syslog output
+  * Counters
+=====   Understand the basics of Hadoop metrics and cluster health monitoring =====
+
+===== Identify the function and purpose of available tools for cluster monitoring =====
+
+===== Be able to install all the ecoystme components in CDH 5, including (but not limited to): Impala, Flume, Oozie, Hue, Cloudera Manager, Sqoop, Hive, and Pig =====
+
+===== Identify the function and purpose of available tools for managing the Apache Hadoop file system =====

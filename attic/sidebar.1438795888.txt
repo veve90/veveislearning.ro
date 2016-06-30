@@ -1,0 +1,22 @@
+====== IT ======
+
+  * [[wiki:android|android]]
+  * [[wiki:big data|big data]]
+  * [[wiki:data mining|data mining]]
+  * [[wiki:product review|product review]]
+  * [[wiki:linux_tips|linux tips]]
+  * [[wiki:raspberrypi|raspberrypi]]
+  * [[wiki:versionning|versionning]]
+  * [[wiki:tips|tips]]
+  * [[wiki:java|java]]
+  * [[wiki:docker|Docker]]
+
+====== Not IT: ======
+
+  * [[wiki:plante |Plantes]] 
+  * [[wiki:selling products on ebay |Vendre des produits sur ebay (french)]]
+  * [[wiki:Places to Visit in France |Places to Visit in France]]
+  * [[wiki:Publica o carte |Publica o carte (romanian)]]
+  * [[wiki:really_general_thoughts |General Thoughts]]
+  * [[wiki:romana |Limba Romana]]
+  * [[wiki:franceza |Limba Franceza]]

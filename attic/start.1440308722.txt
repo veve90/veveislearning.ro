@@ -1,0 +1,30 @@
+====== This is my first post. ======
+
+
+
+My name is **Alina GHERMAN**. This website will contain only data that I'll be searching and that I need to structure it a bit in order to keep it in mind. Hopefully this will help you too =)
+
+If you want to know more about me,see [[http://alinagherman.ro]].
+
+The main topics :
+
+  * [[wiki:android|android]]
+  * [[wiki:big data|big data]]
+  * [[wiki:data mining|data mining]]
+  * [[wiki:product review|product review]]
+  * [[wiki:linux_tips|linux tips]]
+  * [[wiki:raspberrypi|raspberrypi]]
+  * [[wiki:versionning|versionning]]
+  * [[wiki:tips|tips]]
+  * [[wiki:java|java]]
+  * [[wiki:network|Computer network]]
+
+Not informatics:
+  * [[wiki:plante |Plantes]] 
+  * [[wiki:selling products on ebay |Vendre des produits sur ebay (french)]]
+  * [[wiki:Places to Visit in France |Places to Visit in France]]
+  * [[wiki:Publica o carte |Publica o carte (romanian)]]
+  * [[wiki:Mistakes |Mistakes]]
+  * [[wiki:hypocrisy |hypocrisy]]
+  * [[wiki:romana |Limba Romana]]
+  * [[wiki:franceza |Limba Franceza]]

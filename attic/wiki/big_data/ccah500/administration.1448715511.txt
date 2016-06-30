@@ -1,0 +1,319 @@
+====== 4. Hadoop Cluster Installation and Administration (25%) ======
+
+=====Handle disk and machine failures =====
+  * HDFS replicates data blocks on nodes on different racks
+
+**If a NodeManager fails: ** 
+    * the Resource Manager removes it from the list of the active nodes
+    * the tasks on this node are considered as failed by the ApplicationManager
+    * if the ApplicationManager fails => failed application
+
+
+**If the ResourceManager fails: ** 
+  * No application or task can be launched
+  * can be configured in HA
+
+
+**If NameNode goes down:**
+  * if we are not in HA , the cluster is inaccessible
+
+**If DataNode goes down:**
+  * the NameNode will re-replicate the blocks that were on this machine
+  * the jobs will access the data on the remaining machines
+===== Logging configuration =====
+==== Daemon Log ====
+  * each hadoop daemon will produce two log files: .log and .out (stdout+stderr)
+  *  /var/log/hadoop-<component> (configurable location in hadoop-env.sh)
+  * usually maximum disk space for logs: 5 GB
+  * the logs retention is configurable:
+        * the RFS: RollingFileAppender
+        * /etc/hadoop/conf/log4j.properties
+  * exemple:
+      * /var/log/hadoop-hdfs/hadoop-hdfs-machinename.log
+      * /var/log/hadoop-yarn/yarn-yarn-machinename.log
+  * change the daemonlog level: 
+
+        - shell: <code>hadoop daemonlog –setlevel <daemon_host>:<daemon_HTTP_port> <logger> <level-like ERROR, WARN, INFO..> </code>(CHANGE NOT PERSISTENt AFTER RESTART)
+        - web: <code>http://<daemon_host>:<daemon_HTTP_port>/logLevel </code>(CHANGE NOT PERSISTENt AFTER RESTART)
+       - PERSISTENT CHANGE: /etc/hadoop/conf/log4j.properties
+
+
+==== Job Log ====
+  * The application Manager Log
+  * Task stdout, stderr, syslog output
+  * Counters
+
+
+  * The job logs can be aggregated on HDFS
+  * Retention: <code>yarn.log-aggregation.retain-seconds</code>
+  * If you want to access the logs from hte command line you need the job application ID
+        * <code> yarn application -list -appStates FINISHED | grep 'word count'</code>
+        * <code> yarn logs -applicationId application_1392918622651_0004 </code>
+=====   Hadoop metrics and cluster health monitoring =====
+  * Cloudera Manager can e used for cluster monitoring
+  * Monitor the Hadoop daemons:
+      * Alert an operator if a daemon goes down
+      * service hadoop-component-daemon_name status
+  * Monitor disks and disk partitions
+      * Alert imediatly if a disk goes down
+      * Send a warning if disk > 80%
+  * Montor CPU usage on master nodes
+  * Monitor swap on all nodes
+  * Monitor network transfer speeds
+  * Monitor HDFS health
+      * HA configuration: check the size of edit logs
+      * non HA: check the age of fsimage and the size of edit files
+  * Monitor the log sizes (some developpers will create large task logs)
+      * logs file aggregation ==> logs are moved to HDFS
+  * Monitor local disk
+
+
+===== Identify the function and purpose of available tools for cluster monitoring =====
+  * Cloudera Manager: disk, CPU, node failure..
+  * Other monitoring tool: configure to access the JMX ports of HAdoop or the HAdoop metrics sink
+  * Hadoop Metrics2 Framework: all CDH daemons, reads metrics sink configuration from
+        * /etc/hadoop/conf/hadoop-metrics2.properties
+  * We can configure HAdoop:
+      * to publish metrics using the Hadoop Metrics2 framework: /etc/hadoop/conf/hadoop-metrics2.properties
+      * to broadcast the HMX metrics: /etc/hadoop/conf/hadoop-env.sh
+===== Install all the ecoystme components in CDH 5 =====
+==== Hadoop ====
+<code>
+#configure the hosts 
+/etc/hosts
+
+#check name 
+uname -n
+
+#check name 
+echo $HOSTNAME
+
+#connect to one machine and: 
+sudo yum install --assumeyes hadoop-conf-pseudo
+
+#format the NN (namenode metadata: /var/lib/hadoop-hdfs/cache/hdfs/dfs/name.)
+sudo -u hdfs hdfs namenode -format 
+
+#start hdfs servicess
+sudo service hadoop-hdfs-namenode start
+sudo service hadoop-hdfs-secondarynamenode start
+sudo service hadoop-hdfs-datanode start
+
+#create needed directories
+sudo -u hdfs hadoop fs -mkdir /tmp
+sudo -u hdfs hadoop fs -mkdir -p /tmp/hadoop-yarn/staging/history/done_intermediate
+sudo -u hdfs hadoop fs -chown -R mapred:mapred /tmp/hadoop-yarn/staging
+sudo -u hdfs hadoop fs -chmod -R 1777 /tmp
+sudo -u hdfs hadoop fs -mkdir -p /var/log/hadoop-yarn
+sudo -u hdfs hadoop fs -chown yarn:mapred /var/log/hadoop-yarn
+
+#start yarn services
+sudo service hadoop-yarn-resourcemanager start
+sudo service hadoop-yarn-nodemanager start
+sudo service hadoop-mapreduce-historyserver start
+
+#check that they are running
+sudo jps
+
+#user directory
+sudo -u hdfs hadoop fs -mkdir -p /user/veve
+sudo -u hdfs hadoop fs -chown training /user/veve
+
+
+</code>
+==== Impala ====
+In order to install impala you have to allready have installed hdfs, yarn, zookeper, hive;
+
+<code>
+sudo yum install --assumeyes impala-state-store
+sudo yum install --assumeyes impala-catalog
+sudo yum install --assumeyes impala-server
+
+# copy other services conf to impala conf
+sudo cp /etc/hive/conf/hive-site.xml /etc/impala/conf
+sudo cp /etc/hadoop/conf/core-site.xml /etc/impala/conf
+sudo cp /etc/hadoop/conf/hdfs-site.xml /etc/impala/conf
+sudo cp /etc/hadoop/conf/log4j.properties /etc/impala/conf
+
+# start the impala services
+sudo service impala-state-store start
+sudo service impala-catalog start
+sudo service impala-server start
+sudo yum install --assumeyes impala-shell
+impala-shell
+</code>
+==== Flume====
+<code>
+sudo yum install --assumeyes flume-ng
+
+#test it
+vim /etc/hadoop/conf/flume-conf.propertie
+
+# complete the flume-conf.properties with your flume channel and sink properties
+hadoop fs -mkdir -p flume/collectorNameFromConfFile
+
+flume-ng agent --conf /etc/hadoop/conf/ --conf-file /etc/hadoop/conf/flume-conf.properties --name collectorNameFromConfFile
+
+flume-ng agent --conf-file /etc/hadoop/conf/flume-conf.properties --name sourceNameFromConfFile
+</code>
+
+
+==== Oozie====
+==== Hue====
+<code>
+# install and start httpfs
+sudo yum install --assumeyes hadoop-httpfs
+sudo service hadoop-httpfs start
+
+# allow the httpfs user to act on behalf of other users
+vim /etc/hadoop/<service name>/core-site.xml
+
+# add the hadoop.proxyuser.httpfs.hosts : list of yousers that httpfs can impersonate
+# add the hadoop.proxyuser.httpfs.groups *
+
+#restart the namenode
+sudo service hadoop-hdfs-namenode restart
+
+#install hue
+sudo yum install --assumeyes hue
+vim 	 /etc/hue/conf/hue.ini
+# add your IP for 
+#           webhdfs_url
+#           resourcemanager_host
+#           resourcemanager_api_url
+#           proxy_api_url
+#           history_server_api_url
+#           hive_server_host
+#           server_host
+sudo service hue start
+</code>
+==== Cloudera Manager====
+
+=== PATH A: ===
+
+  * download Cloudera Manager installer from http://www.cloudera.com/content/www/en-us/downloads.html
+  * chmod u+x cloudera-manager-installer.bin
+  * sudo ./cloudera-manager-installer.bin
+
+
+Start the Cloudera Manager console:
+http://myhost.example.com:7180/
+
+=== PATH B: ===
+Step 1: Establish Your Repository Strategy
+Step 2: Install CDH
+Step 3: Install the Cloudera Manager Server
+Step 4: Configure a Database for the Cloudera Manager Server
+Step 5: Install the Cloudera Manager Agents
+Step 6: Start the Cloudera Manager Server
+Step 7: Start the Cloudera Manager Agents
+Step 8: Start the Cloudera Manager Admin Console
+Step 9: Configure Services
+Step 10: Change the Default Administrator Password
+Step 11: Test the Installation
+
+=== PATH C: ===
+Install using Tarballs
+==== Sqoop====
+<code>
+# we are having a mysqldabase myDataBaseName
+ mysql --user=veve --password=vevePass myDataBaseName
+
+#check the structure of your MySQL DB
+mysql> DESCRIBE myTableName;
+mysql> SELECT * FROM myTableName LIMIT 10;
+mysql> quit;
+
+#install sqoop
+sudo yum install --assumeyes sqoop
+
+#create link from MYSQL JDBC to /usr/lib/sqoop/lib
+sudo ln -s /usr/share/java/mysql-connector-java.jar /usr/lib/sqoop/lib/
+
+# sqoop commands
+sqoop list-databases --connect jdbc:mysql://<myMySQLHostIP> --username veve --password vevePass
+
+sqoop list-tables --connect jdbc:mysql://<myMySQLHostIP> --username veve --password vevePass
+
+sqoop import  --connect jdbc:mysql://<myMySQLHostIP> --username veve --password vevePass --table myTableName --fields-terminated-by ' ;'
+
+ 
+#check the imported data
+hadoop fs -ls myTableName
+hadoop fs -tail myTableName/part-m-<number>
+</code>
+==== Hive====
+In order to install Hive we need zookeper, hdfs and yarn.
+<code>
+
+# do this on 3 machines
+ sudo yum --assumeyes install zookeeper-server 
+
+# initialize each zookeper instance with an ID
+sudo service zookeeper-server init --myid 1
+
+# configure zookeper
+vim /etc/zookeeper/conf/zoo.cfg
+# add the servers on this files server.1=serverName:2888:3888
+
+
+#create the configuration file
+vim /etc/zookeeper/conf/java.env
+
+# put these 2 configurations files on each searver with zookeper
+#start zookeper on each machine
+sudo service zookeeper-server start
+
+
+#install hive
+sudo yum --assumeyes install hive
+
+#change hive configuration
+vim /etc/hive/conf/hive-site.xml
+# set the metastore connection URL (mysql?)
+# set the connection driver, user, password, the zookeper quorum
+
+# create the warehouse directory (hre hive will save your data)
+sudo -u hdfs hadoop fs -mkdir -p /user/hive/warehouse
+sudo -u hdfs hadoop fs -chmod 1777 /user/hive/warehouse
+
+# make sture that the mysql driver is accessible by hive
+sudo ln -s /usr/share/java/mysql-connector-java.jar /usr/lib/hive/lib
+
+
+# create hive mysql table for the metastore
+mysql -u root -h localhost
+
+CREATE DATABASE metastore;
+USE metastore;
+CREATE USER 'hiveuser'@'%' IDENTIFIED BY 'password';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'hiveuser'@'%' ;
+GRANT SELECT,INSERT,UPDATE,DELETE,LOCK TABLES, EXECUTE,CREATE,ALTER ON metastore.* TO 'hiveuser'@'%' ;
+
+#initialize the hive metastore
+sudo /usr/lib/hive/bin/schematool -dbType mysql -initSchema
+
+# install and start the hive metastore
+sudo yum install --assumeyes hive-metastore
+sudo service hive-metastore start
+
+#install the hive server
+sudo yum install --assumeyes hive-server2
+
+# configure hive to use the right versionof mapreduce
+export HADOOP_MAPRED_HOME=/usr/lib/hadoop-mapreduce
+
+# start hiveServer2
+sudo service hive-server2 start
+
+# check hive from beeline
+beeline -u jdbc:hive2://<MyIP>:10000/default -n training
+!quit
+
+</code>
+
+==== Pig ====
+<code>
+sudo yum install pig
+</code>
+===== Identify the function and purpose of available tools for managing the Apache Hadoop file system =====

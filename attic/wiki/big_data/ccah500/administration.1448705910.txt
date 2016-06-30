@@ -1,0 +1,31 @@
+====== 4. Hadoop Cluster Installation and Administration (25%) ======
+
+===== Given a scenario, identify how the cluster will handle disk and machine failures =====
+  * HDFS replicates data blocks on nodes on different racks
+
+**If a NodeManager fails: ** 
+    * the Resource Manager removes it from the list of the active nodes
+    * the tasks on this node are considered as failed by the ApplicationManager
+    * if the ApplicationManager fails => failed application
+
+
+**If the ResourceManager fails: ** 
+  * No application or task can be launched
+  * can be configured in HA
+
+
+**If NameNode goes down:**
+  * if we are not in HA , the cluster is inaccessible
+
+**If DataNode goes down:**
+  * the NameNode will re-replicate the blocks that were on this machine
+  * the jobs will access the data on the remaining machines
+===== Analyze a logging configuration and logging configuration file format =====
+
+=====   Understand the basics of Hadoop metrics and cluster health monitoring =====
+
+===== Identify the function and purpose of available tools for cluster monitoring =====
+
+===== Be able to install all the ecoystme components in CDH 5, including (but not limited to): Impala, Flume, Oozie, Hue, Cloudera Manager, Sqoop, Hive, and Pig =====
+
+===== Identify the function and purpose of available tools for managing the Apache Hadoop file system =====

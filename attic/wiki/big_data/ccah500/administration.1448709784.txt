@@ -1,0 +1,75 @@
+====== 4. Hadoop Cluster Installation and Administration (25%) ======
+
+===== Given a scenario, identify how the cluster will handle disk and machine failures =====
+  * HDFS replicates data blocks on nodes on different racks
+
+**If a NodeManager fails: ** 
+    * the Resource Manager removes it from the list of the active nodes
+    * the tasks on this node are considered as failed by the ApplicationManager
+    * if the ApplicationManager fails => failed application
+
+
+**If the ResourceManager fails: ** 
+  * No application or task can be launched
+  * can be configured in HA
+
+
+**If NameNode goes down:**
+  * if we are not in HA , the cluster is inaccessible
+
+**If DataNode goes down:**
+  * the NameNode will re-replicate the blocks that were on this machine
+  * the jobs will access the data on the remaining machines
+===== Analyze a logging configuration and logging configuration file format =====
+==== Daemon Log ====
+  * each hadoop daemon will produce two log files: .log and .out (stdout+stderr)
+  *  /var/log/hadoop-<component> (configurable location in hadoop-env.sh)
+  * usually maximum disk space for logs: 5 GB
+  * the logs retention is configurable:
+        * the RFS: RollingFileAppender
+        * /etc/hadoop/conf/log4j.properties
+  * exemple:
+      * /var/log/hadoop-hdfs/hadoop-hdfs-machinename.log
+      * /var/log/hadoop-yarn/yarn-yarn-machinename.log
+  * change the daemonlog level: 
+
+        - shell: <code>hadoop daemonlog –setlevel <daemon_host>:<daemon_HTTP_port> <logger> <level-like ERROR, WARN, INFO..> </code>(CHANGE NOT PERSISTENt AFTER RESTART)
+        - web: <code>http://<daemon_host>:<daemon_HTTP_port>/logLevel </code>(CHANGE NOT PERSISTENt AFTER RESTART)
+       - PERSISTENT CHANGE: /etc/hadoop/conf/log4j.properties
+
+
+==== Job Log ====
+  * The application Manager Log
+  * Task stdout, stderr, syslog output
+  * Counters
+
+
+  * The job logs can be aggregated on HDFS
+  * Retention: <code>yarn.log-aggregation.retain-seconds</code>
+  * If you want to access the logs from hte command line you need the job application ID
+        * <code> yarn application -list -appStates FINISHED | grep 'word count'</code>
+        * <code> yarn logs -applicationId application_1392918622651_0004 </code>
+=====   Understand the basics of Hadoop metrics and cluster health monitoring =====
+  * Cloudera Manager can e used for cluster monitoring
+  * Monitor the Hadoop daemons:
+      * Alert an operator if a daemon goes down
+      * service hadoop-component-daemon_name status
+  * Monitor disks and disk partitions
+      * Alert imediatly if a disk goes down
+      * Send a warning if disk > 80%
+  * Montor CPU usage on master nodes
+  * Monitor swap on all nodes
+  * Monitor network transfer speeds
+  * Monitor HDFS health
+      * HA configuration: check the size of edit logs
+      * non HA: check the age of fsimage and the size of edit files
+  * Monitor the log sizes (some developpers will create large task logs)
+      * logs file aggregation ==> logs are moved to HDFS
+  * Monitor local disk
+
+
+===== Identify the function and purpose of available tools for cluster monitoring =====
+
+===== Be able to install all the ecoystme components in CDH 5, including (but not limited to): Impala, Flume, Oozie, Hue, Cloudera Manager, Sqoop, Hive, and Pig =====
+
+===== Identify the function and purpose of available tools for managing the Apache Hadoop file system =====

@@ -1,0 +1,11 @@
+**Utils**
+  * [[http://android-holo-colors.com/]] 
+  * [[http://jgilfelt.github.io/android-actionbarstylegenerator/#name=example&compat=holo&theme=dark&actionbarstyle=solid&texture=1&hairline=1&neutralPressed=1&backColor=E4E4E4%2C100&secondaryColor=D6D6D6%2C100&tabColor=33B5E5%2C100&tertiaryColor=F2F2F2%2C100&accentColor=33B5E5%2C100&cabBackColor=FFFFFF%2C100&cabHighlightColor=000%2C100]] 
+  * [[http://www.androiduipatterns.com/2012/09/creating-custom-android-styles-easy-way.html]] 
+  * [[http://android-ui-utils.googlecode.com/hg/asset-studio/dist/icons-actionbar.html]]
+  * [[http://androidcode-sqlite.blogspot.fr/]]
+
+**Generals**
+  * Downgrade to android 2.3 for Xperia: 
+        * [[http://www.youtube.com/watch?v=IkYXTJoE5bs]]
+        * [[http://www.xperiablog.net/forum/resources/xperia-x10_x10i_3-0-1-g-0-75_global_generic.69/]]

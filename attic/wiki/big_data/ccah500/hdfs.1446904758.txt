@@ -1,0 +1,118 @@
+====== HDFS (17%) ======
+
+===== Describe the function of HDFS Daemons ===== 
+  * **NameNode:** manages the filesystem metadadata and persists all file changes metadata into 2 files:
+        * **edits:**  changes made to the metadatasystem since the last fsimage was created (since the last checkpoint). There is one edit file per transaction (created)
+        * **fsimage:** an image of the metadata system
+
+The dataNode sends lists of blocks to the Namenode in order to inform him what blocks does it have. The namenode will save this information in memory.
+
+The Namenode filesystem puts up all metadata information in memory in order to be able to do fast lookup.
+
+  * **Secondary NameNode:** makes a merge of the edits file and the fsimage file for the NameNode.
+  *** DataNode:** stores and retrieves blocks of data.It has to send hartbeats to the Namenode ( list of blocks).
+<code>
+# format the new filesystem 
+# create the first fsimage, edits 
+# to be run on the namenode
+bin/hadoop namenode -format
+
+# start all hdfs daemons 
+# to be run on the namenode
+bin/start-dfs.sh
+</code>
+
+
+=====  Describe the normal operation of an Apache Hadoop cluster, both in data storage and in data processing. ===== 
+
+==== Data Storage ====
+  * The storage function is assured by the HDFS service. 
+
+=== Design ===
+  * HDFS is a userspace filesystem
+  * big blick size (optimized for reading and writing large quantity of data)
+
+=== HDFS daemons=== 
+  * **NN: Namenode**-> stores filesystem metadata, global picture of the filesystem, installed on the master. Clients are connecting to the NN in order to perform filesystem operations. The filesystem metadata is stored in RAM .
+  * **SNN: Secondary Namenode**-> performs internal NN transaction log checkpo. **Is not a backup of the NN.**
+  * **DN: DataNode**-> Stores block data. In productions, we have disks that are used only for storage. RAID is not necessary due to replication.  Regulary sends harthbeats to NN. Every X hours it sends a block report to the NN.
+
+
+Managing Filesystem Metadata
+Namenode High Availability
+Namenode Federation
+
+==== Data Processing ====
+===== Identify current features of computing systems that motivate a system like Apache Hadoop. =====
+  * big computers cost a lot (monolitic computing) ⇒ use a lot of smaller computers (distributed computing)
+  * data access is one of the bottlenecks of processing data on a big computer ⇒ since here we  have  it on multiple computers (replication), we can read faster large blocks of sequential data
+  * handle failure ⇒ on a big computer a failure is a failure , here we can handle several workers failure, and a namenode failure
+
+
+===== Classify major goals of HDFS Design =====
+  * replicates data accross multiple nodes. The replication factor is defined by a configuraiton. This will help       
+      * The processing speed and the read speed. 
+      * Fault tolerance
+  * the block size is significantly larger than the block size of ext3 or any other classical filesystem. By default is 64 MB and there are some that increase it to 256 MB, or event 1GB. This will :
+        * The processing speed and the read speed.
+        * Increase the occupied size on your disk if you have small files ==> see small files problem
+  * Master-slave architecture
+  * 2 security levels
+  * “Moving Computation is Cheaper than Moving Data”
+  * write-once-read-many access model
+  * Large Data Sets Not tens of million of small files
+
+
+
+===== Given a scenario, identify appropriate use case for HDFS Federation =====
+http://fr.slideshare.net/ydn/hug-march-hdfs-federation 
+
+==== Scenario 1: Performance ====
+The Namenode process the entire metadata into memory. So there is a limitation between the number of objects that we can store and the namenode memory. 
+  * the startup can be slowed down if there are a lot of items to put up in memory
+  * debugging with a single larger JVM is harder than with 2 smaller JVMs
+
+==== Scenario 2: Application isolation====
+When we have a single namenode the experimental applications can affect the production ones if we work on the same cluster.
+
+==== Scenario 3: Failure ====
+If the NAmenode Federation is not used the failure of the namenode will bring down the entire cluster.
+
+==== Scenario 4: Big Big Cluster====
+A namenode with 50GB Of memory and 200 million objects can support 400 DataNodes, 12 PB of storage. So in order to support ultiple Datanodes, we could get a bigger machine or use the HDFS Federation.
+
+
+=====  Identify components and daemon of an HDFS HA-Quorum cluster =====
+
+TODO
+
+===== Analyze the role of HDFS security (Kerberos) =====
+
+
+TODO
+
+===== Determine the best data serialization choice for a given scenario =====
+
+TODO find an example
+===== Describe file read and write paths =====
+==== Read ====
+source image: http://www.guru99.com/learn-hdfs-a-beginners-guide.html
+source steps: "Hadoop Operations" By Eric Sammer
+{{:wiki:big_data:readhdfs.png|}}
+
+  * We assume that a file X is on the filesystem
+  * The client asking for the file X has to have:
+          * the hadoop client library (JARs)
+          * a copy of the cluster configuration that specifies the NN location
+  * The client ask the NN the permission to read the file X
+  * The NN is checking the validity of the client (if kerberos) and the permissions of the file X.
+  * If everything is OK, the NN sends to the client the first Block ID of the file X and the list of DataNodes on wich he can find it (sorted by distance to client)
+  * The client can contact the most appropiate DN in order to read the block data.
+  * This process repeats until all blocks in the file have been read. 
+
+
+==== Write ====
+source image: http://www.guru99.com/learn-hdfs-a-beginners-guide.html
+{{:wiki:big_data:writehdfs.png|}}
+===== Identify the commands to manipulate files in the Hadoop File System Shell =====
+TODO

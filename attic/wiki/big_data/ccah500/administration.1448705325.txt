@@ -1,0 +1,13 @@
+====== 4. Hadoop Cluster Installation and Administration (25%) ======
+
+===== Given a scenario, identify how the cluster will handle disk and machine failures =====
+
+===== Analyze a logging configuration and logging configuration file format =====
+
+=====   Understand the basics of Hadoop metrics and cluster health monitoring =====
+
+===== Identify the function and purpose of available tools for cluster monitoring =====
+
+===== Be able to install all the ecoystme components in CDH 5, including (but not limited to): Impala, Flume, Oozie, Hue, Cloudera Manager, Sqoop, Hive, and Pig =====
+
+===== Identify the function and purpose of available tools for managing the Apache Hadoop file system =====

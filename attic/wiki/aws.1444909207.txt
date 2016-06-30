@@ -1,0 +1,42 @@
+====== AWS ======
+===== How to Recover an Unreachable Linux Instance =====
+https://aws.amazon.com/articles/5213606968661598
+
+  * You have to detach the volume **V** from the broken instance **A** 
+  * Atache the volume **V** to another instance **B** .
+  * Launce the instance **B**
+  * Connect yourself to **B** and mount the volume **V**
+  * Change the mistake that you did on the volume **V**
+  * Stop the instance **B** 
+  * Detache the volume **V**
+  * Reatach the volume **V** to the old instance A on  **/dev/sda**
+
+
+===== Man-in-the-middle attack error when connection to your instance? =====
+When you can't connect to you machine anymore in ssh, with the folowing error:
+
+<code>
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx.
+Please contact your system administrator.
+Add correct host key in /root/.ssh/known_hosts to get rid of this message.
+Offending RSA key in /root/.ssh/known_hosts:11
+RSA host key for 192.168.99.78 has changed and you have requested strict checking.
+Host key verification failed.
+</code>
+
+You have just to do on your machine:
+<code>
+ssh-keygen -R 192.168.99.78
+</code>
+
+Then you can try again to connect:
+<code>
+ssh centos@192.168.99.78 -i MyKey.pem
+</code>
